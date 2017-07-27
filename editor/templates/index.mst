@@ -27,8 +27,12 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="vendor/jquery/css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="vendor/vendor.css">
+{{# compressedBuild }}
 <link rel="stylesheet" href="red/style.min.css">
+{{/ compressedBuild }}
+{{^ compressedBuild }}
+<link rel="stylesheet" href="red/style.css">
+{{/ compressedBuild }}
 {{#page.css}}
 <link rel="stylesheet" href="{{.}}">
 {{/page.css}}
@@ -231,8 +235,56 @@
 <script src="vendor/jsonata/jsonata.min.js"></script>
 <script src="vendor/ace/ace.js"></script>
 <script src="vendor/ace/ext-language_tools.js"></script>
-<script src="{{ asset.red }}"></script>
-<script src="{{ asset.main }}"></script>
+{{# compressedBuild }}
+<script src="{{{ asset.red_min }}}"></script>
+<script src="{{{ asset.red_main_min }}}"></script>
+{{/ compressedBuild }}
+{{^ compressedBuild }}
+<script src="{{{ asset.red }}}"></script>
+<script src="{{{ asset.red_main }}}"></script>
+<script src="{{{ asset.red_events}}}"></script>
+<script src="{{{ asset.red_i18n}}}"></script>
+<script src="{{{ asset.red_settings}}}"></script>
+<script src="{{{ asset.red_user}}}"></script>
+<script src="{{{ asset.red_comms}}}"></script>
+<script src="{{{ asset.red_text_bidi}}}"></script>
+<script src="{{{ asset.red_text_format}}}"></script>
+<script src="{{{ asset.red_ui_state}}}"></script>
+<script src="{{{ asset.red_nodes}}}"></script>
+<script src="{{{ asset.red_history}}}"></script>
+<script src="{{{ asset.red_validators}}}"></script>
+<script src="{{{ asset.red_ui_utils}}}"></script>
+<script src="{{{ asset.red_ui_common_editableList}}}"></script>
+<script src="{{{ asset.red_ui_common_checkboxSet}}}"></script>
+<script src="{{{ asset.red_ui_common_menu}}}"></script>
+<script src="{{{ asset.red_ui_common_panels}}}"></script>
+<script src="{{{ asset.red_ui_common_popover}}}"></script>
+<script src="{{{ asset.red_ui_common_searchBox}}}"></script>
+<script src="{{{ asset.red_ui_common_tabs}}}"></script>
+<script src="{{{ asset.red_ui_common_stack}}}"></script>
+<script src="{{{ asset.red_ui_common_typedInput}}}"></script>
+<script src="{{{ asset.red_ui_actions}}}"></script>
+<script src="{{{ asset.red_ui_deploy}}}"></script>
+<script src="{{{ asset.red_ui_diff}}}"></script>
+<script src="{{{ asset.red_ui_keyboard}}}"></script>
+<script src="{{{ asset.red_ui_workspaces}}}"></script>
+<script src="{{{ asset.red_ui_view}}}"></script>
+<script src="{{{ asset.red_ui_sidebar}}}"></script>
+<script src="{{{ asset.red_ui_palette}}}"></script>
+<script src="{{{ asset.red_ui_tab_info}}}"></script>
+<script src="{{{ asset.red_ui_tab_config}}}"></script>
+<script src="{{{ asset.red_ui_palette_editor}}}"></script>
+<script src="{{{ asset.red_ui_editor}}}"></script>
+<script src="{{{ asset.red_ui_tray}}}"></script>
+<script src="{{{ asset.red_ui_clipboard}}}"></script>
+<script src="{{{ asset.red_ui_library}}}"></script>
+<script src="{{{ asset.red_ui_notifications}}}"></script>
+<script src="{{{ asset.red_ui_search}}}"></script>
+<script src="{{{ asset.red_ui_typeSearch}}}"></script>
+<script src="{{{ asset.red_ui_subflow}}}"></script>
+<script src="{{{ asset.red_ui_userSettings}}}"></script>
+<script src="{{{ asset.red_ui_touch_radialMenu}}}"></script>
+{{/ compressedBuild }}
 {{# page.scripts }}
 <script src="{{.}}"></script>
 {{/ page.scripts }}

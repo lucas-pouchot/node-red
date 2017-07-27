@@ -31,10 +31,54 @@ var defaultContext = {
         image: "red/images/node-red.png"
     },
     asset: {
-        red: (process.env.NODE_ENV == "development")? "red/red.js":"red/red.min.js",
-        main: (process.env.NODE_ENV == "development")? "red/main.js":"red/main.min.js",
-
-    }
+        red_min: "red/red.min.js",
+        red: "red/red.js",
+        red_main_min: "red/main.min.js",
+        red_main: "red/main.js",
+        red_events: "red/events.js",
+        red_i18n: "red/i18n.js",
+        red_settings: "red/settings.js",
+        red_user: "red/user.js",
+        red_comms: "red/comms.js",
+        red_text_bidi: "red/text/bidi.js",
+        red_text_format: "red/text/format.js",
+        red_ui_state: "red/ui/state.js",
+        red_nodes: "red/nodes.js",
+        red_history: "red/history.js",
+        red_validators: "red/validators.js",
+        red_ui_utils: "red/ui/utils.js",
+        red_ui_common_editableList: "red/ui/common/editableList.js",
+		red_ui_common_checkboxSet: "red/ui/common/checkboxSet.js",
+        red_ui_common_menu: "red/ui/common/menu.js",
+		red_ui_common_panels: "red/ui/common/panels.js",
+        red_ui_common_popover: "red/ui/common/popover.js",
+        red_ui_common_searchBox: "red/ui/common/searchBox.js",
+        red_ui_common_tabs: "red/ui/common/tabs.js",
+		red_ui_common_stack: "red/ui/common/stack.js",
+        red_ui_common_typedInput: "red/ui/common/typedInput.js",
+        red_ui_actions: "red/ui/actions.js",
+        red_ui_deploy: "red/ui/deploy.js",
+        red_ui_diff: "red/ui/diff.js",
+        red_ui_keyboard: "red/ui/keyboard.js",
+        red_ui_workspaces: "red/ui/workspaces.js",
+        red_ui_view: "red/ui/view.js",
+        red_ui_sidebar: "red/ui/sidebar.js",
+        red_ui_palette: "red/ui/palette.js",
+        red_ui_tab_info: "red/ui/tab-info.js",
+        red_ui_tab_config: "red/ui/tab-config.js",
+        red_ui_palette_editor: "red/ui/palette-editor.js",
+        red_ui_editor: "red/ui/editor.js",
+        red_ui_tray: "red/ui/tray.js",
+        red_ui_clipboard: "red/ui/clipboard.js",
+        red_ui_library: "red/ui/library.js",
+        red_ui_notifications: "red/ui/notifications.js",
+        red_ui_typeSearch: "red/ui/typeSearch.js",
+        red_ui_search: "red/ui/search.js",
+        red_ui_subflow: "red/ui/subflow.js",
+        red_ui_userSettings: "red/ui/userSettings.js",
+        red_ui_touch_radialMenu: "red/ui/touch/radialMenu.js"
+    },
+    compressedBuild: true
 };
 
 var theme = null;
@@ -83,6 +127,9 @@ module.exports = {
         themeContext = clone(defaultContext);
         if (runtime.version) {
             themeContext.version = runtime.version();
+        }
+        if(settings.hasOwnProperty("SKIP_BUILD_CHECK") && settings.SKIP_BUILD_CHECK === true){
+            themeContext.compressedBuild = false;
         }
         themeSettings = null;
         theme = settings.editorTheme || {};

@@ -166,10 +166,10 @@ module.exports = function(grunt) {
                         "editor/vendor/d3/d3.v3.min.js",
                         "editor/vendor/i18next/i18next.min.js"
                     ],
-                    "public/vendor/vendor.css": [
-                        // TODO: resolve relative resource paths in
-                        //       bootstrap/FA/jquery
-                    ],
+                    // "public/vendor/vendor.css": [
+                    //    // TODO: resolve relative resource paths in
+                    //    //       bootstrap/FA/jquery
+                    // ],
                     "public/vendor/jsonata/jsonata.min.js": [
                         "node_modules/jsonata/jsonata-es5.min.js",
                         "editor/vendor/jsonata/formatter.js"
@@ -189,6 +189,12 @@ module.exports = function(grunt) {
                     'public/vendor/ace/mode-jsonata.js': 'editor/vendor/jsonata/mode-jsonata.js',
                     'public/vendor/ace/snippets/jsonata.js': 'editor/vendor/jsonata/snippets-jsonata.js'
                 }
+            },
+            pretty_build: {
+                files: {
+                    'public/vendor/ace/mode-jsonata.js': 'editor/vendor/jsonata/mode-jsonata.js',
+                    'public/vendor/ace/snippets/jsonata.js': 'editor/vendor/jsonata/snippets-jsonata.js'
+                }
             }
         },
         sass: {
@@ -199,8 +205,19 @@ module.exports = function(grunt) {
                 files: [{
                     dest: 'public/red/style.min.css',
                     src: 'editor/sass/style.scss'
+                }]
+            },
+            pretty_build: {
+                files: [{
+                    dest: 'public/red/style.css',
+                    src: 'editor/sass/style.scss'
+                }]
+            },
+            bootstrap: {
+                options: {
+                    outputStyle: 'compressed'
                 },
-                {
+                files: [{
                     dest: 'public/vendor/bootstrap/css/bootstrap.min.css',
                     src: 'editor/vendor/bootstrap/css/bootstrap.css'
                 }]
@@ -354,6 +371,50 @@ module.exports = function(grunt) {
                     }
                 ]
             },
+            pretty_build : {
+                files:[
+                    {
+                        cwd: 'editor/js',
+                        src: '**',
+                        expand: true,
+                        dest: 'public/red/'
+                    },
+                    {
+                        cwd: 'editor/images',
+                        src: '**',
+                        expand: true,
+                        dest: 'public/red/images/'
+                    },
+                    {
+                        cwd: 'editor/vendor',
+                        src: [
+                            'ace/**',
+                            //'bootstrap/css/**',
+                            'bootstrap/img/**',
+                            'jquery/css/**',
+                            'font-awesome/**'
+                        ],
+                        expand: true,
+                        dest: 'public/vendor/'
+                    },
+                    {
+                        cwd: 'editor/icons',
+                        src: '**',
+                        expand: true,
+                        dest: 'public/icons/'
+                    },
+                    {
+                        expand: true,
+                        src: ['editor/index.html','editor/favicon.ico'],
+                        dest: 'public/',
+                        flatten: true
+                    },
+                    {
+                        src: 'CHANGELOG.md',
+                        dest: 'public/red/about'
+                    }
+                ]
+            },
             release: {
                 files: [{
                     mode: true,
@@ -459,6 +520,12 @@ module.exports = function(grunt) {
             function () {
                 process.env.NODE_ENV = 'development';
             });
+            
+    grunt.registerTask('setPrettyBuildEnv',
+        'Sets PRETTY_BUILD=true so non-minified assets are used',
+            function () {
+                process.env.PRETTY_BUILD = 'true';
+            });
 
     grunt.registerTask('default',
         'Builds editor content then runs code style checks and unit tests on all components',
@@ -478,7 +545,11 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build',
         'Builds editor content',
-        ['clean:build','jsonlint','concat:build','concat:vendor','copy:build','uglify:build','sass:build','attachCopyright']);
+        ['clean:build','jsonlint','concat:build','concat:vendor','copy:build','uglify:build','sass:build','sass:bootstrap','attachCopyright']);
+
+    grunt.registerTask('pretty-build',
+        'Builds editor content',
+        ['setPrettyBuildEnv','clean:build','jsonlint','concat:vendor','copy:pretty_build','uglify:pretty_build','sass:pretty_build','sass:bootstrap']);
 
     grunt.registerTask('dev',
         'Developer mode: run node-red, watch for source changes and build/restart',
@@ -487,6 +558,10 @@ module.exports = function(grunt) {
     grunt.registerTask('release',
         'Create distribution zip file',
         ['build','clean:release','copy:release','chmod:release','compress:release']);
+        
+    grunt.registerTask('pretty-release',
+        'Create distribution zip file',
+        ['pretty-build','clean:release','copy:release','chmod:release','compress:release']);
 
     grunt.registerTask('coverage',
         'Run Istanbul code test coverage task',

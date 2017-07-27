@@ -210,6 +210,11 @@ module.exports = {
     // If not set, the following default order is used:
     //paletteCategories: ['subflows', 'input', 'output', 'function', 'social', 'mobile', 'storage', 'analysis', 'advanced'],
 
+    // The following property should be set to true when you use the pretty build
+    // or the development build.
+    // If not set, the default value is false
+    // SKIP_BUILD_CHECK: false,
+
     // Configure the logging output
     logging: {
         // Only console logging is currently supported
