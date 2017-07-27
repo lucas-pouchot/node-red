@@ -845,7 +845,7 @@ RED.diff = (function() {
             cache: false,
             url: 'flows',
             success: function(nodes) {
-                var localFlow = RED.nodes.createCompleteNodeSet();
+                var localFlow = RED.nodes.createCompleteNodeSet(null,true);
                 var originalFlow = RED.nodes.originalFlow();
                 var remoteFlow = nodes.flows;
                 var localDiff = generateDiff(originalFlow,localFlow);

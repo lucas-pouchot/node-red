@@ -1,0 +1,65 @@
+<div aria-labelledby="ui-id-4" aria-describedby="dialog" role="dialog"
+	tabindex="-1"
+	class="setting-board ui-dialog ui-widget ui-widget-content">
+
+	<div
+		class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+		<span class="ui-dialog-title" id="ui-id-4">
+            <span id="showall_title"></span>
+        </span>
+	</div>
+	<div
+		style="display: block; width: auto; min-height: 26px; max-height: none; height: auto;"
+		id="dialog" class="hide ui-dialog-content ui-widget-content">
+		<form id="show_all-form" class="form-horizontal" action="/handle/show_all">
+		
+			<div class="form-row">
+				<label for="show_all-workspaces">
+					<i class="icon-tag"></i>
+                    <span id="showall_show"></span>
+				</label>
+				<input id="show_all-workspaces" type="checkbox" name="workspaces" title="Show all workspaces">
+			</div>
+		
+			<div class="form-tips note"></div>			
+		</form>
+	</div>
+
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+		<div class="ui-dialog-buttonset">
+			<button aria-disabled="false" role="button"
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+				type="submit" form="show_all-form">
+				<span class="ui-button-text">OK</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+    $("#showall_title").html(RED._("settings.showall.title"));
+    $("#showall_show").html(RED._("settings.showall.show"));
+    
+    $("#show_all-workspaces").ready(function(){
+        var settings = <%- payload %>;
+        if(typeof settings != undefined && settings === true){
+          $('#show_all-workspaces').attr('checked', true);
+        } else {
+          $('#show_all-workspaces').attr('checked', false);
+        }
+    });
+	
+	$('#show_all-form').submit(function(event){
+        var $this = $(this);
+        event.preventDefault();
+        $('input[name="usingAJAX"]',this).val( 'true' );
+        var url = $this.attr('action');
+        var dataToSend = $this.serialize();
+        var callback = function(dataReceived){
+            RED.notify(dataReceived,"success");
+        };
+        var typeOfDataToReceive = 'html';
+        $.get( url, dataToSend, callback, typeOfDataToReceive )
+    });
+</script>
+

@@ -1,0 +1,70 @@
+
+    {
+        "id": "2a5cc00e.d5a34",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/avahi/scan",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 2900,
+        "wires": [
+            [
+                "3288caa8.cd7736"
+            ]
+        ]
+    },
+    {
+        "id": "3288caa8.cd7736",
+        "type": "scanAvahi",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 290,
+        "y": 2900,
+        "wires": [
+            [
+                "b359ba7e.4ca648"
+            ]
+        ]
+    },
+    {
+        "id": "b359ba7e.4ca648",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "extract infos",
+        "func": "msg.payload = msg.scan;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 2900,
+        "wires": [
+            [
+                "696f180f.9690e8"
+            ]
+        ]
+    },
+    {
+        "id": "696f180f.9690e8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 590,
+        "y": 2900,
+        "wires": []
+    },
+    {
+        "id": "360dcdd7.991142",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "scan avahi",
+        "info": "",
+        "x": 100,
+        "y": 2860,
+        "wires": []
+    }

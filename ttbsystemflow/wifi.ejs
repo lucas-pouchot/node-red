@@ -1,0 +1,66 @@
+<% if(payload) { %>
+    <div aria-labelledby="ui-id-4" aria-describedby="dialog" role="dialog"
+        tabindex="-1"
+        class="setting-board ui-dialog ui-widget ui-widget-content">
+
+        <div
+            class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-4">
+                <span id="wifi_title"></span>
+            </span>
+        </div>
+        <div
+            style="display: block; width: auto; min-height: 26px; max-height: none; height: auto;"
+            id="dialog" class="hide ui-dialog-content ui-widget-content">
+            <form id="wifi-form" class="form-horizontal"
+                action="/handle/wifilist">
+
+                <div id="current-wifi-container"></div>
+
+                <div id="wifilist-container"></div>
+
+                <div class="form-tips note"></div>
+            </form>
+        </div>
+
+
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <div class="ui-dialog-buttonset">
+                <button aria-disabled="false" role="button"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                    type="submit" form="wifi-form">
+                    <span class="ui-button-text">OK</span>
+                </button>
+            </div>
+        </div>
+    </div>
+<% } else { %>
+    <style>
+        #wifi-container{
+            padding: -10px;
+            margin: -23px;
+        }
+    </style>
+<% } %>
+
+<script>
+    $("#wifi_title").html(RED._("settings.wifi.title"));
+    
+	$("#current-wifi-container").load("current-wifi");
+	$("#wifilist-container").load("wifilist");
+
+	$('#wifi-form').submit(function(event){
+        var $this = $(this);
+
+        event.preventDefault();
+        $('input[name="usingAJAX"]',this).val( 'true' );
+        var url = $this.attr('action');
+        var dataToSend = $this.serialize();
+        var callback = function(dataReceived){
+            RED.notify(dataReceived,"success");
+        };
+        var typeOfDataToReceive = 'html';
+        $.get( url, dataToSend, callback, typeOfDataToReceive )
+    });
+</script>
+

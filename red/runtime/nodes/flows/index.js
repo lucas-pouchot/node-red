@@ -31,6 +31,7 @@ var deprecated = require("../registry/deprecated");
 
 var storage = null;
 var settings = null;
+var comms = null;
 
 var activeConfig = null;
 var activeFlowConfig = null;
@@ -49,6 +50,7 @@ function init(runtime) {
     }
     settings = runtime.settings;
     storage = runtime.storage;
+    comms = runtime.adminApi.comms;
     started = false;
     if (!typeEventRegistered) {
         events.on('type-registered',function(type) {
@@ -324,6 +326,7 @@ function start(type,diff,muteLog) {
 
 function stop(type,diff,muteLog) {
     type = type||"full";
+    comms.publish("stopFlows",type,false);
     diff = diff||{
         added:[],
         changed:[],

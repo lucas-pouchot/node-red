@@ -49,6 +49,18 @@ module.exports = {
             safeSettings.editorTheme.palette.editable = false;
         }
 
+        if (util.isArray(settings.hiddenWorkspaces)) {
+            safeSettings.hiddenWorkspaces = settings.hiddenWorkspaces;
+        }
+	
+        if (settings.functionGlobalContext.settings.showall != undefined) {
+            safeSettings.showall = settings.functionGlobalContext.settings.showall;
+        }
+
+        if (util.isArray(settings.otherPropToSave)) {
+            safeSettings.otherPropToSave = settings.otherPropToSave;
+        }
+
         settings.exportNodeSettings(safeSettings);
 
         res.json(safeSettings);

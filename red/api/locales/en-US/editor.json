@@ -10,7 +10,8 @@
             "load": "Load",
             "save": "Save",
             "import": "Import",
-            "export": "Export"
+            "export": "Export",
+            "reboot": "Reboot"
         }
     },
     "workspace": {
@@ -61,7 +62,18 @@
             "login": "Login",
             "logout": "Logout",
             "editPalette":"Manage palette",
-            "showTips": "Show tips"
+            "showTips": "Show tips",
+            "console": "Console",
+            "settings": "Settings",
+            "restore": "Restore the flows",
+            "restart": "Restart Node-RED",
+            "reboot": "Reboot",
+            "shutdown": "Shutdown",
+            "ttbdoc": "The Thingbox documentation",
+            "nrwebsite": "Node-RED Website",
+            "npm": "Node",
+            "help": "Help",
+            "about": "About"
         }
     },
     "user": {
@@ -117,8 +129,21 @@
         "copyMessageValue": "Value copied",
         "copyMessageValue_truncated": "Truncated value copied"
     },
+    "npmInstallNode": {
+        "nodes": "Node:",
+        "selectNodes": "Select the text above and copy to the clipboard.",
+        "pasteNodes": "Paste node name or node url here",
+        "importNodes": "Import node",
+        "exportNodes": "Export nodes to clipboard",
+        "importUnrecognised": "Imported unrecognised type:",
+        "importUnrecognised_plural": "Imported unrecognised types:",
+        "nodeCopied": "__count__ node copied",
+        "nodeCopied_plural": "__count__ nodes copied",
+        "invalidFlow": "Invalid flow: __message__",
+        "installFail": "Node install failed"
+    },
     "deploy": {
-        "deploy": "Deploy",
+        "deploy": "Activate",
         "full": "Full",
         "fullDesc": "Deploys everything in the workspace",
         "modifiedFlows": "Modified Flows",
@@ -253,6 +278,7 @@
         "filter": "filter nodes",
         "search": "search modules",
         "label": {
+            "basic": "basic",
             "subflows": "subflows",
             "input": "input",
             "output": "output",
@@ -425,5 +451,135 @@
         "modeString": "Handle as UTF-8 String",
         "modeArray": "Handle as JSON array",
         "modeDesc":"<h3>Buffer editor</h3><p>The Buffer type is stored as a JSON array of byte values. The editor will attempt to parse the entered value as a JSON array. If it is not valid JSON, it will be treated as a UTF-8 String and converted to an array of the individual character code points.</p><p>For example, a value of <code>Hello World</code> will be converted to the JSON array:<pre>[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]</pre></p>"
+    },
+    "settings": {
+        "common": {
+            "note": "<b>Note:</b> Use Ok to validate then Reboot.",
+            "reboot": "Reboot"
+        },
+        "navbar": {
+            "ttb": " The ThingBox ",
+            "powered": "&nbsp;powered by&nbsp;"
+        },
+        "hostname": {
+            "title": "Device Name",
+            "name": " Name",
+            "rename": "Rename",
+            "new": "New",
+            "password": "Password",
+            "note": "<b>Note:</b> Use Rename to validate then Reboot.",
+            "msg": "To change your device name you have to use your account password.",
+            "addmes": "Your new device address will be "
+        },
+        "account": {
+            "title": "Account",
+            "msg": "The account will be created if it does'nt exist.",
+            "mail": " Mail",
+            "password": " Password"
+        },
+        "wifi": {
+            "title": "WiFi",
+            "msg": "The current WiFi used is : ",
+            "notSelectedMsg": "WiFi is not currently used",
+            "ssid": "SSID",
+            "password": "Password"
+        },
+        "showall": {
+            "title": "Show all workspaces",
+            "show": " Show"
+        },
+        "staticip": {
+            "title": "Static IP",
+            "interface": {
+                "label": "Interface",
+                "ethernet": "Ethernet",
+                "wifi": "WiFi"
+            },
+            "type": {
+                "label": " Type",
+                "dynamic": "Dynamic",
+                "static": "Static"
+            },
+            "ip": "IP",
+            "netmask": "Netmask",
+            "gateway": "Gateway"
+        },
+        "update": {
+            "title": "System update",
+            "no": "No update found !",
+            "yes": "An update is available !",
+            "note": "<b>Note:</b> Reboot after Update.",
+            "progress": " Update in progress ...",
+            "update": "Update",
+            "success": "Successful update",
+            "error": "Something wrong happened. Please, try again."
+        },
+        "lang": {
+            "title": "Choose the language",
+            "select": {
+                "label": "Language",
+                "auto": "Automatic",
+                "en": "English",
+                "fr": "French"
+            },
+            "tips": "<b>Note:</b> Use Ok to validate then Reboot.<br><ul><li><b>Automatic</b> : Choose the language of your browser (by default).</li><li><b>English</b> : forces the English language.</li><li><b>French</b> : forces the French language.</li></ul>"
+        },
+        "displayMode": {
+            "title": "Choose the display mode",
+            "select": {
+                "label": "Display mode",
+                "1": "1 (if you bought a TimeSquAir before the September 20, 2016)",
+                "2": "2 (if you bought a TimeSquAir after the September 20, 2016)"
+            },
+            "tips": "<b>Note:</b> Use Ok to validate<br>"
+        },
+        "about": {
+            "current": "Current version : "
+        },
+        "enable_backup": {
+            "title": "Automatic backup",
+            "label": "enable",
+            "tips": "<b>Note:</b> a backup will be done each hour, erasing the last backup.<br/>Use Ok to validate. No need to reboot."
+        },
+        "create_backup": {
+            "title": "Backup",
+            "label": "create a backup",
+            "tips": "<b>Note:</b> a backup will erasing the last backup."
+        },
+        "use_backup":{
+            "title": "Use the last backup",
+            "date": "Last backup found : __date__",
+            "nodate": "No backup was made with this device",
+            "tips": "<b>Note:</b> Reboot after restore.",
+            "progress": " Restore in progress ...",
+            "update": "restore",
+            "success": "Successful restore",
+            "error": "Something wrong happened. Please, try again."
+        }
+    },
+    "cgu":{        
+        "obsolete" : "Your browser is out of date, please update it.",
+        "url" : "/cguEN.html",
+        "next" : "Next",
+        "previous" : "Previous",
+        "submit" : "Submit",
+        "acceptCGU" : " I accept the Terms stated above",
+        "accountWillBeCreated":"The account will be created if it does not exist",
+        "notConnected":"Your Thingbox has no access to internet",
+        "cannotUseAccountOffline":"In order to fully use its services, creating an account you will be proposed when your Thingbox will access internet",
+        "acceptCGUonSubmit":"By clicking \"Submit\", you state have read, understood and accepted the Terms",
+        "rename":"You have to rename your Thingbox's name",
+	"title":"Sign up / Sign in",
+        "mail":" e-Mail",
+        "password":" Password",
+        "confirmPassword":" Confirm your password",
+        "TSAName":" Your new Thingbox's name",
+        "warning":"Warning",
+        "newHostnameTips":"the new web address will be ",
+        "alreadyHostnameUsed":" is already in use on your network, choose another name",
+        "mailDoesntCorresponding":"The password does not correspond with the filled email",
+        "nameAlreadyUsedOnThisAccount":"This account already has a Thingbox or a TimeSquAir named : ",
+        "configWillBeUsed":"Its configuration will be used.",
+        "youWillBeRedirected":"You are going be redirected automatically once your Thingbox has finished to reboot."
     }
 }

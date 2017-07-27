@@ -1,0 +1,459 @@
+
+    {
+        "id": "51a406c8.804ba8",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Account form",
+        "info": "",
+        "x": 110,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "3359ce36.62a5d2",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/account",
+        "method": "get",
+        "x": 130,
+        "y": 1700,
+        "wires": [
+            [
+                "832b940f.c3c7c"
+            ]
+        ]
+    },
+    {
+        "id": "6394fd85.ca9f2c",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/current-account",
+        "method": "get",
+        "x": 150,
+        "y": 1740,
+        "wires": [
+            [
+                "6d81de6f.63034"
+            ]
+        ]
+    },
+    {
+        "id": "eedbb720.753358",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 430,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "a3431c3b.cb98b8",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "read settings",
+        "filename": "/root/userdir/thethingbox.json",
+        "format": "utf8",
+        "x": 950,
+        "y": 1740,
+        "wires": [
+            [
+                "dae6e4be.ad4ab8"
+            ]
+        ]
+    },
+    {
+        "id": "6d81de6f.63034",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "filename": "/etc/hostname",
+        "format": "utf8",
+        "x": 360,
+        "y": 1740,
+        "wires": [
+            [
+                "9c1c5842.a90b7"
+            ]
+        ]
+    },
+    {
+        "id": "d9d90fa5.e88798",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 1270,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "dae6e4be.ad4ab8",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "create payload",
+        "func": "msg.payload = JSON.parse(msg.payload);\nmsg.payload.ttb_name = msg.ttb_name;\nmsg.payload.id = msg.uuid;\nreturn msg;",
+        "outputs": 1,
+        "x": 1120,
+        "y": 1740,
+        "wires": [
+            [
+                "d9d90fa5.e88798"
+            ]
+        ]
+    },
+    {
+        "id": "9c1c5842.a90b7",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "ttb_name",
+        "func": "msg.ttb_name = msg.payload.replace(\"\\n\",\"\");\nif (typeof msg.ttb_name === 'string') {\n    msg.ttb_name = msg.ttb_name.toLowerCase();\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 520,
+        "y": 1740,
+        "wires": [
+            [
+                "5c5258d0.a3ada8"
+            ]
+        ]
+    },
+    {
+        "id": "5c5258d0.a3ada8",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "read uuid",
+        "filename": "/root/settings.json",
+        "format": "utf8",
+        "x": 660,
+        "y": 1740,
+        "wires": [
+            [
+                "ceefb180.31105"
+            ]
+        ]
+    },
+    {
+        "id": "ceefb180.31105",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "get uuid",
+        "func": "msg.uuid = JSON.parse(msg.payload).id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 1740,
+        "wires": [
+            [
+                "a3431c3b.cb98b8"
+            ]
+        ]
+    },
+    {
+        "id": "91409b74.2b01f8",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/account-id",
+        "method": "post",
+        "x": 140,
+        "y": 1840,
+        "wires": [
+            [
+                "abf4e7c0.4e36"
+            ]
+        ]
+    },
+    {
+        "id": "abf4e7c0.4e36",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Decode payload",
+        "func": "msg.payload.ttb_id = msg.payload.id;\ndelete msg.payload.id;\nmsg.values = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 1840,
+        "wires": [
+            [
+                "5f97964b.09b928"
+            ]
+        ]
+    },
+    {
+        "id": "8ba04589.10c338",
+        "type": "http request",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://mythingbox.io/api/V3/account/get",
+        "x": 690,
+        "y": 1880,
+        "wires": [
+            [
+                "e33b9779.d205e"
+            ]
+        ]
+    },
+    {
+        "id": "b8d725fe.41f9d",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Account ID",
+        "info": "",
+        "x": 100,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "7336edd2.d92d9c",
+        "type": "file",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "write",
+        "filename": "/root/userdir/thethingbox.json",
+        "appendNewline": false,
+        "overwriteFile": "true",
+        "x": 1750,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "75a4c87c.29f608",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "process api response",
+        "func": "msg.headers = { \"Content-Type\": \"application/json\" };\nmsg.account_id = msg.payload.account_id;\nmsg.code = msg.payload.code;\nmsg.payload = msg.values;\nmsg.payload.account_id = msg.account_id;\nmsg.payload.id = msg.payload.ttb_id;\nmsg.payload.code = msg.code;\ndelete msg.payload.ttb_id;\ndelete msg.payload.rsaKey;\nmsg.values = msg.payload;\nif (msg.code == 200 || msg.code == 304){\n    return [msg,msg];\n} else {\n    return [msg,null];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1220,
+        "y": 1880,
+        "wires": [
+            [
+                "b662d472.7db38"
+            ],
+            [
+                "a4fb190e.139e9"
+            ]
+        ]
+    },
+    {
+        "id": "b662d472.7db38",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 1390,
+        "y": 1860,
+        "wires": []
+    },
+    {
+        "id": "a4fb190e.139e9",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "read",
+        "filename": "/root/userdir/thethingbox.json",
+        "format": "utf8",
+        "x": 1390,
+        "y": 1900,
+        "wires": [
+            [
+                "d11739b6.d4c0a"
+            ]
+        ]
+    },
+    {
+        "id": "d11739b6.d4c0a",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "to write thethingbox.json",
+        "func": "msg.payload = JSON.parse(msg.payload);\nmsg.payload.email = msg.values.email;\nmsg.payload.account_id = msg.values.account_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1570,
+        "y": 1900,
+        "wires": [
+            [
+                "7336edd2.d92d9c"
+            ]
+        ]
+    },
+    {
+        "id": "832b940f.c3c7c",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Account",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/account.ejs",
+        "reloadfile": true,
+        "x": 300,
+        "y": 1700,
+        "wires": [
+            [
+                "eedbb720.753358"
+            ]
+        ]
+    },
+    {
+        "id": "eee954d5.2bfa",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "add public key",
+        "func": "msg.values.rsaKey = msg.payload;\nmsg.values.device = {};\nmsg.values.device.type = msg.device.name;\nmsg.values.device.version = msg.device.version;\nmsg.payload = JSON.stringify(msg.values);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 1880,
+        "wires": [
+            [
+                "743df4d2.32e25c"
+            ]
+        ]
+    },
+    {
+        "id": "743df4d2.32e25c",
+        "type": "cryptomessage",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "action": "encrypt",
+        "method": "rsa",
+        "target": "payload",
+        "rsa_useTTBKey": false,
+        "rsa_useServerKey": true,
+        "x": 520,
+        "y": 1880,
+        "wires": [
+            [
+                "8ba04589.10c338"
+            ]
+        ]
+    },
+    {
+        "id": "e33b9779.d205e",
+        "type": "cryptomessage",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "action": "decrypt",
+        "method": "rsa",
+        "target": "payload",
+        "rsa_useTTBKey": false,
+        "rsa_useServerKey": true,
+        "x": 860,
+        "y": 1880,
+        "wires": [
+            [
+                "b715ab43.6cf0d"
+            ]
+        ]
+    },
+    {
+        "id": "b715ab43.6cf0d",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "extract infos",
+        "func": "try{\n    msg.payload = JSON.parse(msg.payload);\n}catch(e){\n    \n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 1880,
+        "wires": [
+            [
+                "75a4c87c.29f608"
+            ]
+        ]
+    },
+    {
+        "id": "607157c5.6698a8",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "read",
+        "filename": "/root/certs/my-ttb.pub",
+        "format": "utf8",
+        "x": 990,
+        "y": 1840,
+        "wires": [
+            [
+                "eee954d5.2bfa"
+            ]
+        ]
+    },
+    {
+        "id": "5f97964b.09b928",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "ttb package.json",
+        "filename": "/root/thethingbox/package.json",
+        "format": "utf8",
+        "x": 530,
+        "y": 1840,
+        "wires": [
+            [
+                "8bd2b816.122fe8"
+            ]
+        ]
+    },
+    {
+        "id": "8bd2b816.122fe8",
+        "type": "json",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 690,
+        "y": 1840,
+        "wires": [
+            [
+                "265e2e14.1843ba"
+            ]
+        ]
+    },
+    {
+        "id": "265e2e14.1843ba",
+        "type": "change",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "device",
+                "to": "msg.payload"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 1840,
+        "wires": [
+            [
+                "607157c5.6698a8"
+            ]
+        ]
+    }

@@ -1,0 +1,102 @@
+
+    {
+        "type": "tab",
+        "id": "system",
+        "label": "System",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json"
+    },
+    {
+        "id": "75422b74.99729c",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/navbar",
+        "method": "get",
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "a12715f.aa40268"
+            ]
+        ]
+    },
+    {
+        "id": "ecb91ea9.a18a1",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 430,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b48816c8.cc6a58",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/settings",
+        "method": "get",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "422b11a5.fa1f2"
+            ]
+        ]
+    },
+    {
+        "id": "a14ebf23.ea3a6",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 430,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "72b1ed31.1543a4",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "This flow handles the internal functionalities of the Thingbox",
+        "info": "",
+        "x": 250,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "422b11a5.fa1f2",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Settings",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/settings.ejs",
+        "reloadfile": true,
+        "x": 300,
+        "y": 80,
+        "wires": [
+            [
+                "a14ebf23.ea3a6"
+            ]
+        ]
+    },
+    {
+        "id": "a12715f.aa40268",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Navbar",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/navbar.ejs",
+        "reloadfile": true,
+        "x": 300,
+        "y": 120,
+        "wires": [
+            [
+                "ecb91ea9.a18a1"
+            ]
+        ]
+    }

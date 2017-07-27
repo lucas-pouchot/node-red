@@ -1,0 +1,281 @@
+
+    {
+        "id": "2f8616b0.f7d2ea",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/change-hostname",
+        "method": "get",
+        "x": 160,
+        "y": 780,
+        "wires": [
+            [
+                "cb7518f8.f26ac8"
+            ]
+        ]
+    },
+    {
+        "id": "cb7518f8.f26ac8",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Change name",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/change_hostname.ejs",
+        "reloadfile": true,
+        "x": 380,
+        "y": 780,
+        "wires": [
+            [
+                "634e840e.29986c"
+            ]
+        ]
+    },
+    {
+        "id": "634e840e.29986c",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 530,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "97b79794.49e28",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/current-hostname",
+        "method": "get",
+        "x": 160,
+        "y": 520,
+        "wires": [
+            [
+                "89bfbe30.d746f"
+            ]
+        ]
+    },{
+        "id": "89bfbe30.d746f",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=hostname'+\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 520,
+        "wires": [
+            [
+                "b4439f20.be579"
+            ]
+        ]
+    },
+    {
+        "id": "b4439f20.be579",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 470,
+        "y": 520,
+        "wires": [
+            [
+                "40d7cfb7.c80eb"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "40d7cfb7.c80eb",
+        "type": "function",
+        "z": "system",
+        "name": "lowercase",
+        "func": "if (typeof msg.payload === 'string') {\n    msg.payload = msg.payload.toLowerCase();\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 520,
+        "wires": [
+            [
+                "249cecaa.2aeff4"
+            ]
+        ]
+    },
+    {
+        "id": "249cecaa.2aeff4",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 740,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "96ccea98.c34d7",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/hostname",
+        "method": "get",
+        "x": 140,
+        "y": 560,
+        "wires": [
+            [
+                "c46a7408.da7048"
+            ]
+        ]
+    },
+    {
+        "id": "c46a7408.da7048",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Hostname",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/hostname.ejs",
+        "reloadfile": true,
+        "x": 370,
+        "y": 560,
+        "wires": [
+            [
+                "5b60e3b3.6f7d64"
+            ]
+        ]
+    },
+    {
+        "id": "5b60e3b3.6f7d64",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 530,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "dfa3262b.4db73",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/handle/change-hostname",
+        "method": "get",
+        "x": 170,
+        "y": 620,
+        "wires": [
+            [
+                "72c00016.fb1be8",
+                "3614413c.e3a5c6"
+            ]
+        ]
+    },
+    {
+        "id": "72c00016.fb1be8",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "parse query",
+        "func": "\n\n//console.log(JSON.stringify(msg.req.query));\n\n//console.log(JSON.stringify(msg.req.query.value));\n\nreturn {payload: msg.req.query.value};",
+        "outputs": 1,
+        "x": 390,
+        "y": 640,
+        "wires": [
+            [
+                "397f7544.ae81ea"
+            ]
+        ]
+    },
+    {
+        "id": "397f7544.ae81ea",
+        "type": "function",
+        "z": "system",
+        "name": "lowercase",
+        "func": "if (typeof msg.payload === 'string') {\n    msg.payload = msg.payload.toLowerCase();\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 640,
+        "wires": [
+            [
+                "2330269c.89ba5a"
+            ]
+        ]
+    },
+    {
+        "id": "2330269c.89ba5a",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.hostname = msg.payload;\nmsg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=hostname'+\n    '&value='+ encodeURI(msg.hostname) +\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 680,
+        "wires": [
+            [
+                "b71ff64e.108ab8"
+            ]
+        ]
+    },
+    {
+        "id": "b71ff64e.108ab8",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 810,
+        "y": 680,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3614413c.e3a5c6",
+        "type": "ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "ejs": "Request submitted.",
+        "x": 370,
+        "y": 600,
+        "wires": [
+            [
+                "455f67e2.f7a8c8"
+            ]
+        ]
+    },
+    {
+        "id": "455f67e2.f7a8c8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 530,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "731eae69.bbfb9",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Name",
+        "info": "",
+        "x": 90,
+        "y": 480,
+        "wires": []
+    }

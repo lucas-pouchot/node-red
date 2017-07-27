@@ -1,0 +1,157 @@
+<div aria-labelledby="ui-id-4" aria-describedby="dialog" role="dialog"
+	tabindex="-1"
+	class="setting-board ui-dialog ui-widget ui-widget-content">
+
+	<div
+		class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+		<span class="ui-dialog-title" id="ui-id-4 ">
+            <span id="hostname_title"></span>
+        </span>
+	</div>
+	<div
+		style="display: block; width: auto; min-height: 26px; max-height: none; height: auto;"
+		id="dialog" class="hide ui-dialog-content ui-widget-content">
+		<form id="hostname-form" class="form-horizontal"
+			action="/handle/change-hostname">
+			
+			<div id="change-hostname-container"></div>
+            <!--
+            <div class="form-row with_account">
+                <label for="hostname_password"><i class="icon-lock"></i>
+                    <span id="hostname_pass"></span>
+                </label>
+                <input id="hostname_password" type="password" name="pwd">
+            </div>
+            -->
+            <div class="with_account">
+                <p id="hostname_msg" style="font-family:Verdana; font-size:12px;"></p>
+            </div>
+            <div class="new_add">
+                <p style="font-family:Verdana; font-size:12px;">
+                    <span id="newAddMes"></span>
+                    <span style="text-decoration: underline;">
+                        <a id="newLink">http://<span id="newHostname"></span>.local/</a>
+                    </span>
+                </p>
+            </div>
+			<div class="form-tips new_name" id="host-note"></div>
+		</form>
+	</div>
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix new_name">
+		<div class="ui-dialog-buttonset">
+			<button aria-disabled="false" role="button" id="hostname-submit" 
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+				type="submit" form="hostname-form">
+				<span class="ui-button-text" id="host-rename"></span>
+			</button>
+		</div>
+	</div>
+
+</div>
+
+<div id="ttb-name"></div>
+
+
+<script>
+    $("#hostname_title").html(RED._("settings.hostname.title"));
+    //$("#hostname_pass").html(RED._("settings.hostname.password"));
+    $("#hostname_msg").html(RED._("settings.hostname.msg"));
+    $("#host-rename").html(RED._("settings.hostname.rename"));
+    $("#host-note").html(RED._("settings.hostname.note"));
+    $('#newAddMes').html(RED._("settings.hostname.addmes"))
+    $(".new_name").hide();
+    $(".new_add").hide();
+    $(".with_account").hide();
+    $("#verif_ok").hide();
+    
+	$("#change-hostname-container").load("change-hostname", function() {
+		$.ajax({
+	       url : 'current-hostname',
+	       type : 'GET',
+	       dataType : 'html',
+	           success : function(code_html, statut){
+	           	code_html;
+				$("#change-password-input").val(code_html);
+                $("#newHostname").html($("#change-password-input").val());
+                $("#newLink").attr("href", "http://"+$("#change-password-input").val()+".local");
+	           },
+	           error : function(result, statut, error){
+				alert(error);
+	           }
+	    });
+	});
+
+    var changingFunc = function() {
+        var value =  $("#change-password-input").val();
+    	if(value && value.trim() !== ""){
+    		$("#newHostname").html(value);
+            $("#newLink").attr("href", "http://"+value+".local");
+    	}
+    	else {
+    		$("#newHostname").html("thethingbox");
+            $("#newLink").attr("href", "http://thethingbox.local");
+    	}
+    };
+    $("#change-hostname-container").on("keyup", changingFunc);
+    $("#change-hostname-container").on("change", changingFunc);
+
+    $('#hostname-form').submit(function(event){
+        var $this = $(this);
+        var result = false;
+        $(".new_name").hide();
+        //$(".with_account").hide();
+        $("#settings-rename").show();
+        $('#change-password-input').prop('readonly', true);
+        
+        if(account.email && account.account_id){
+            $.ajax({
+                url : 'account-pwd',
+                type: 'GET',
+                async: false,
+                data : { 
+                    email: account.email,
+                    account_id: account.account_id,
+                    ttb_name: account.ttb_name,
+                    verif: account.verif,
+                    //pwd: account.pwd,
+                    new_name: account.new_name
+                },
+                success : function(data, statut){
+                    if(data.status == "success"){
+                        result = true;
+                    }
+                },
+                error : function(result, statut, error){
+                    console.log("An error has occured when trying to check your Password.");
+                }
+            });
+            
+            if(result){
+                event.preventDefault();
+                $('input[name="usingAJAX"]',this).val( 'true' );
+                var url = $this.attr('action');
+                var dataToSend = $this.serialize();
+                var callback = function(dataReceived){
+                    RED.notify(dataReceived,"success");
+                };
+                var typeOfDataToReceive = 'html';
+                $.get( url, dataToSend, callback, typeOfDataToReceive )
+            }
+            else {
+                event.preventDefault();
+                RED.notify("Bad password","error");
+            }
+        }
+        else {
+            event.preventDefault();
+            $('input[name="usingAJAX"]',this).val( 'true' );
+            var url = $this.attr('action');
+            var dataToSend = $this.serialize();
+            var callback = function(dataReceived){
+                RED.notify(dataReceived,"success");
+            };
+            var typeOfDataToReceive = 'html';
+            $.get( url, dataToSend, callback, typeOfDataToReceive )
+        }
+    });
+</script>

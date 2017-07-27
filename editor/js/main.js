@@ -50,7 +50,7 @@
     function loadFlows() {
         $.ajax({
             headers: {
-                "Accept":"application/json",
+                "Accept":"application/json"
             },
             cache: false,
             url: 'flows',
@@ -159,6 +159,24 @@
                     // Refresh flow library to ensure any examples are updated
                     RED.library.loadFlowLibrary();
                 });
+                RED.comms.subscribe("addNode", function(topic, msg) {
+                    if(!$.isArray(msg)) msg = [msg];
+                    for(var i in msg) {
+                        var nn = msg[i];
+                        if(!nn.wires && !isSpecialType(nn.type)) nn.wires = [];
+                        if(!nn.x && !isSpecialType(nn.type)) nn.x = 60;
+                        if(!nn.y && !isSpecialType(nn.type)) nn.y = 30;
+                        if(!nn.id) nn.id = RED.nodes.id();
+                    }
+                    try{
+                        RED.nodes.import(msg, false);
+                    } catch(e) { }
+                    RED.nodes.dirty(true);
+                    RED.view.redraw(true);
+                });
+                function isSpecialType(type) {
+                    return type == "config" || type == "workspace";
+                }
             }
         });
     }
@@ -194,6 +212,7 @@
         menuOptions.push(null);
         menuOptions.push({id:"menu-item-import",label:RED._("menu.label.import"),options:[
             {id:"menu-item-import-clipboard",label:RED._("menu.label.clipboard"),onselect:"core:show-import-dialog"},
+            {id:"menu-item-console-npm",icon:"fa fa-cloud-download",label:"node",onselect:"core:node-import"},
             {id:"menu-item-import-library",label:RED._("menu.label.library"),options:[]}
         ]});
         menuOptions.push({id:"menu-item-export",label:RED._("menu.label.export"),disabled:true,options:[
@@ -214,17 +233,34 @@
             {id:"menu-item-subflow-convert",label:RED._("menu.label.selectionToSubflow"),disabled:true,onselect:"core:convert-to-subflow"},
         ]});
         menuOptions.push(null);
+        menuOptions.push({id:"menu-item-console",icon:"fa fa-list",label:"Console",href:"/log/console.txt"});
+        menuOptions.push(null);
+        menuOptions.push({id:"menu-item-restart",label:RED._("menu.label.restart"), onselect:function() {
+                $.ajax({type: "POST", url: "/inject/restart"});
+        }});
+        menuOptions.push({id:"menu-item-reboot",label:RED._("menu.label.reboot"), onselect:function() {
+            $.ajax({type: "POST", url: "/inject/reboot"});
+        }});
+        menuOptions.push({id:"menu-item-reboot",label:RED._("menu.label.shutdown"), onselect:function() {
+            $.ajax({type: "POST", url: "/inject/shutdown"});
+        }});
+        menuOptions.push(null);
         if (RED.settings.theme('palette.editable') !== false) {
             menuOptions.push({id:"menu-item-edit-palette",label:RED._("menu.label.editPalette"),onselect:"core:manage-palette"});
             menuOptions.push(null);
         }
 
+        menuOptions.push({id:"menu-item-ttb-settings",icon:"fa fa-cog",label:RED._("menu.label.settings"),onselect:"core:show-user-ttbsettings"});
         menuOptions.push({id:"menu-item-user-settings",label:RED._("menu.label.userSettings"),onselect:"core:show-user-settings"});
         menuOptions.push(null);
 
         menuOptions.push({id:"menu-item-keyboard-shortcuts",label:RED._("menu.label.keyboardShortcuts"),onselect:"core:show-help"});
+        menuOptions.push({id:"menu-item-doc",
+            label: RED.settings.theme("menu.menu-item-help.label",RED._("menu.label.ttbdoc")),
+            href: RED.settings.theme("menu.menu-item-help.url","http://thethingbox.io/docs/index.html")
+        });
         menuOptions.push({id:"menu-item-help",
-            label: RED.settings.theme("menu.menu-item-help.label","Node-RED website"),
+            label: RED.settings.theme("menu.menu-item-help.label",RED._("menu.label.nrwebsite")),
             href: RED.settings.theme("menu.menu-item-help.url","http://nodered.org/docs")
         });
         menuOptions.push({id:"menu-item-node-red-version", label:"v"+RED.settings.version, onselect: "core:show-about" });
@@ -232,6 +268,7 @@
 
         RED.view.init();
         RED.userSettings.init();
+        RED.thingboxSettings.init();
         RED.user.init();
         RED.library.init();
         RED.keyboard.init();
@@ -244,6 +281,7 @@
         RED.subflow.init();
         RED.workspaces.init();
         RED.clipboard.init();
+        RED.npmInstallNode.init();
         RED.search.init();
         RED.editor.init();
         RED.diff.init();
@@ -253,6 +291,7 @@
         RED.deploy.init(RED.settings.theme("deployButton",null));
 
         RED.actions.add("core:show-about", showAbout);
+        RED.actions.add("core:node-import", RED.npmInstallNode.import);
         RED.nodes.init();
         RED.comms.connect();
 
@@ -264,9 +303,7 @@
 
     $(function() {
 
-        if ((window.location.hostname !== "localhost") && (window.location.hostname !== "127.0.0.1")) {
-            document.title = document.title+" : "+window.location.hostname;
-        }
+        document.title = window.location.hostname.replace(".local","");
 
         ace.require("ace/ext/language_tools");
 

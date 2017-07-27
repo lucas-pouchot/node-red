@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<title>Settings</title>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<link rel="icon" type="image/png" href="../../favicon.ico">
+<link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="../../vendor/jquery/css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../vendor/vendor.css">
+<link rel="stylesheet" href="../../red/style.min.css">
+<script src="/async.js"></script>
+<script src="/vendor/vendor.js"></script>
+<script src="/vendor/ace/ace.js"></script>
+<script src="/vendor/ace/ext-language_tools.js"></script>
+<script src="/red/red.js"></script>
+<script src="/red/main.js"></script>
+<script src="/red/events.js"></script>
+<script src="/red/i18n.js"></script>
+<script src="/red/settings.js"></script>
+<script src="/red/user.js"></script>
+<script src="/red/comms.js"></script>
+<script src="/red/ui/state.js"></script>
+<script src="/red/validators.js"></script>
+<script src="/red/ui/keyboard.js"></script>
+<script src="/red/ui/view.js"></script>
+<script src="/red/ui/editor.js"></script>
+<script src="/red/ui/library.js"></script>
+<script src="/red/ui/notifications.js"></script>
+
+
+<style>
+    html {
+        height: 100%;
+    }
+    body {
+        padding-top: 0px;
+        height: 100%;
+    }
+    .navbar-fixed-top {
+        position: fixed !important;
+    }
+    .setting-board {
+        position: static;
+    }
+    .setting-edit-container {
+        padding: 0px;
+        margin: 23px auto;
+        width: 540px;
+    }
+    .setting-about-container {
+        margin: 0px auto;
+        width: 300px;
+    }
+    #settings-container {
+        overflow: auto;
+        background-color: white;
+        height: 100%;
+    }
+    .ui-button:active {
+        background-color: #8f8f8f;
+    }
+</style>
+
+<script>
+    function load() {
+        var funcs = [];
+
+        funcs.push(function(callback){
+            $("#hostname-container").load("hostname", function(){
+                callback();
+            });
+        });
+        funcs.push(function(callback){
+            $("#wifi-container").load("wifi", function(){
+                callback();
+            });
+        });
+        funcs.push(function(callback){
+            $("#static_ip-container").load("static_ip", function(){
+                callback();
+            });
+        });
+        funcs.push(function(callback){
+            $("#show-all-workspaces").load("show_all", function(){
+                callback();
+            });
+        });
+        funcs.push(function(callback){
+            $("#account-container").load("account", function(){
+                callback();
+            });
+        });
+        funcs.push(function(callback){
+            $("#lang-container").load("lang", function(){
+                callback();
+            });
+        });
+        funcs.push(function(callback){
+            $("#about-container").load("about", function(){
+                callback();
+            });
+        });
+
+        async.parallel(funcs, function(){
+            $(".note").html(RED._("settings.common.note"));
+            $(".button-reboot").click(function() {
+                    var conf = confirm("Are you sure you want to Reboot ?");
+                    if(conf){
+                        RED.notify("Reboot ...","success");
+                        $.ajax({
+                            type: "POST",
+                            url: "/inject/reboot"
+                        });
+                    }
+            });
+        });
+    }
+
+    function waitNLS() {
+        if (RED._("settings.common.reboot") != "") {
+            load();
+        }
+        else {
+            setTimeout(waitNLS, 100);
+        }
+    }
+
+    $(document).ready(waitNLS);
+
+</script>
+
+<div id="notifications"></div>
+
+<div id="settings-container">
+    <div id="hostname-container"  class="setting-edit-container"></div>
+    <div id="account-container"   class="setting-edit-container"></div>
+    <div id="lang-container"      class="setting-edit-container"></div>
+    <div id="show-all-workspaces" class="setting-edit-container"></div>
+    <div id="static_ip-container" class="setting-edit-container"></div>
+    <div id="wifi-container"      class="setting-edit-container"></div>
+    <div id="about-container" class="setting-about-container"></div>
+</div>
+
+</html>

@@ -1,0 +1,66 @@
+<div aria-labelledby="ui-id-4" aria-describedby="dialog" role="dialog"
+	tabindex="-1"
+	class="setting-board ui-dialog ui-widget ui-widget-content">
+
+	<div
+		class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+		<span class="ui-dialog-title" id="ui-id-4">
+            <span id="displayMode_title"></span>
+        </span>
+	</div>
+	<div
+		style="display: block; width: auto; min-height: 26px; max-height: none; height: auto;"
+		id="dialog" class="hide ui-dialog-content ui-widget-content">
+		<form id="displayMode-form" class="form-horizontal" action="/handle/displayMode">
+		
+			<div class="form-row">
+				<label style="width:20%" for="displayMode_interface">
+                    <span id="displayMode_select"></span>
+				</label>
+                <select style="width:75%" id="displayMode_interface" name="displayMode">
+                    <option value="1"  id="displayModev1"></option>
+                    <option value="2" id="displayModev2"></option>
+                </select>
+            </div>
+            
+			<div class="form-tips" id="displayMode_tips"></div>			
+		</form>
+	</div>
+
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+		<div class="ui-dialog-buttonset">
+			<button aria-disabled="false" role="button"
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+				type="submit" form="displayMode-form">
+				<span class="ui-button-text">OK</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+    $("#displayMode_title").html(RED._("settings.displayMode.title"));
+    $("#displayMode_select").html(RED._("settings.displayMode.select.label"));
+    $("#displayModev1").html(RED._("settings.displayMode.select.1"));
+    $("#displayModev2").html(RED._("settings.displayMode.select.2"));
+    $("#displayMode_tips").html(RED._("settings.displayMode.tips"));
+    
+    $(document).ready(function(){
+        var settings = "<%- payload %>";
+        $('#displayMode_interface').val(settings);
+    });
+	
+	$('#displayMode-form').submit(function(event){
+        var $this = $(this);
+        event.preventDefault();
+        $('input[name="usingAJAX"]',this).val( 'true' );
+        var url = $this.attr('action');
+        var dataToSend = $this.serialize();
+        var callback = function(dataReceived){
+            RED.notify(dataReceived,"success");
+        };
+        var typeOfDataToReceive = 'html';
+        $.get( url, dataToSend, callback, typeOfDataToReceive )
+    });
+</script>
+

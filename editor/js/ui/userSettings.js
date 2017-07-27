@@ -36,6 +36,14 @@ RED.userSettings = (function() {
             title: "User Settings",
             buttons: [
                 {
+                    id: "node-dialog-reboot",
+                    text: RED._("menu.label.reboot"),
+                    class: "danger",
+                    click: function() {
+                        $.ajax({type: "POST", url: "/inject/reboot"});
+                    }
+                },
+                {
                     id: "node-dialog-ok",
                     text: RED._("common.label.close"),
                     class: "primary",

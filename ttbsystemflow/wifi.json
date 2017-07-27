@@ -1,0 +1,388 @@
+
+    {
+        "id": "c0453512.f62628",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/wifi",
+        "method": "get",
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "24e1ea8.3512b16"
+            ]
+        ]
+    },
+    {
+        "id": "24e1ea8.3512b16",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=interfaces'+\n    '&value=wlan0'+\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "3ffc658f.97222a"
+            ]
+        ]
+    },
+    {
+        "id": "3ffc658f.97222a",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "f9a3ee24.05862"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f9a3ee24.05862",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "if(msg.payload && msg.payload.indexOf(\"wlan\") != -1){\n    return msg\n} else {\n    msg.payload = \"\";\n    return msg;\n}",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 490,
+        "y": 220,
+        "wires": [
+            [
+                "362ef41d.9ab2fc"
+            ]
+        ]
+    },
+    {
+        "id": "362ef41d.9ab2fc",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Wifi",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/wifi.ejs",
+        "reloadfile": true,
+        "x": 610,
+        "y": 220,
+        "wires": [
+            [
+                "73aa6c33.6da4a4"
+            ]
+        ]
+    },
+    {
+        "id": "73aa6c33.6da4a4",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 730,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "54359110.d130e",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/current-wifi",
+        "method": "get",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "36e76997.97c6f6"
+            ]
+        ]
+    },
+    {
+        "id": "2b419723.74e188",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 630,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "4f8bbb48.77fee4",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Current wifi",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/current_wifi.ejs",
+        "reloadfile": true,
+        "x": 490,
+        "y": 280,
+        "wires": [
+            [
+                "2b419723.74e188"
+            ]
+        ]
+    },
+    {
+        "id": "36e76997.97c6f6",
+        "type": "currentwifi",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 330,
+        "y": 280,
+        "wires": [
+            [
+                "4f8bbb48.77fee4"
+            ]
+        ]
+    },
+    {
+        "id": "db50502a.5e584",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/wifilist",
+        "method": "get",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "d4c5db0b.0e36"
+            ]
+        ]
+    },
+    {
+        "id": "2ee6b87e.7592d8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 630,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d4c5db0b.0e36",
+        "type": "wifilist",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "name",
+        "x": 310,
+        "y": 320,
+        "wires": [
+            [
+                "9c6aa813.6b9c58"
+            ]
+        ]
+    },
+    {
+        "id": "9c6aa813.6b9c58",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Wifilist",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/wifilist.ejs",
+        "reloadfile": true,
+        "x": 470,
+        "y": 320,
+        "wires": [
+            [
+                "2ee6b87e.7592d8"
+            ]
+        ]
+    },
+    {
+        "id": "43c32049.3d73e",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "WiFi",
+        "info": "",
+        "x": 90,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "6b60f68d.24b88",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/handle/wifilist",
+        "method": "get",
+        "x": 130,
+        "y": 880,
+        "wires": [
+            [
+                "b747fbd8.bdc73",
+                "706f286a.de1e5"
+            ]
+        ]
+    },
+    {
+        "id": "ab30f5d6.413018",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 410,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "b747fbd8.bdc73",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "parse query",
+        "func": "\nreturn {\n\tssid: msg.req.query.ssid,\n\tpassword: msg.req.query.password,\n};",
+        "outputs": 1,
+        "x": 310,
+        "y": 900,
+        "wires": [
+            [
+                "4acc5cd8.c439dc"
+            ]
+        ]
+    },
+    {
+        "id": "bb4095b6.e5b9e8",
+        "type": "template",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "syntax": "mustache",
+        "template": "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\nupdate_config=1\n\n\nnetwork={\n        ssid=\"{{ssid}}\"\n        key_mgmt=NONE\n}\n",
+        "x": 610,
+        "y": 880,
+        "wires": [
+            [
+                "e8c7302c.df03a"
+            ]
+        ]
+    },
+    {
+        "id": "3795136c.4da07c",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "WiFi",
+        "info": "",
+        "x": 90,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "4acc5cd8.c439dc",
+        "type": "switch",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "protected ?",
+        "property": "password",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 470,
+        "y": 900,
+        "wires": [
+            [
+                "bb4095b6.e5b9e8"
+            ],
+            [
+                "9a8e982d.f8d8f"
+            ]
+        ]
+    },
+    {
+        "id": "9a8e982d.f8d8f",
+        "type": "template",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "syntax": "mustache",
+        "template": "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\nupdate_config=1\n\n\nnetwork={\n        ssid=\"{{ssid}}\"\n        psk=\"{{password}}\"\n        key_mgmt=WPA-PSK\n}",
+        "x": 610,
+        "y": 920,
+        "wires": [
+            [
+                "e8c7302c.df03a"
+            ]
+        ]
+    },
+    {
+        "id": "e8c7302c.df03a",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.wpa = msg.payload;\nmsg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=wpa'+\n    '&value='+ encodeURI(msg.wpa) +\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 730,
+        "y": 900,
+        "wires": [
+            [
+                "30bb8cc.9c19a74"
+            ]
+        ]
+    },
+    {
+        "id": "30bb8cc.9c19a74",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 850,
+        "y": 900,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "706f286a.de1e5",
+        "type": "ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "ejs": "Request submitted.",
+        "x": 290,
+        "y": 860,
+        "wires": [
+            [
+                "ab30f5d6.413018"
+            ]
+        ]
+    }

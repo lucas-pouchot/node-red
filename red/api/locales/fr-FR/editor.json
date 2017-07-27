@@ -1,0 +1,353 @@
+{
+    "common": {
+        "label": {
+            "name": "Nom",
+            "ok": "OK",
+            "cancel": "Annuler",
+            "delete": "Supprimer",
+            "close": "Fermer",
+	        "reboot": "Redémarrer"
+        }
+    },
+    "workspace": {
+        "defaultName": "Feuille __number__",
+        "renameSheet": "Renommer la feuille",
+        "confirmDelete": "Confirmer la suppression",
+        "delete": "Êtes-vous sûr de bien vouloir supprimer '__label__'?",
+        "dropFlowHere": "Lacher le flow ici"
+    },
+    "menu": {
+        "label": {
+            "sidebar": {
+                "sidebar": "Barre latérale",
+                "show": "Afficher la barre latérale"
+            },
+            "displayStatus": "Afficher le statut des nodes",
+            "import": "Importer",
+            "export": "Exporter",
+            "clipboard": "Presse-papiers",
+            "library": "Bibliothèque",
+            "subflows": "sous-flots",
+            "createSubflow": "Créer un sous-flot",
+            "selectionToSubflow": "La sélection en sous-flot",
+            "workspaces": "Espaces de travail",
+            "add": "Ajouter",
+            "rename": "Renomer",
+            "delete": "Supprimer",
+            "keyboardShortcuts": "Raccourcis clavier",
+            "login": "S'identifier",
+            "logout": "Se déconnecter",
+            "console": "Console",
+            "settings": "Paramètres",
+            "restore": "Restaurer les flows",
+            "restart": "Redémarrer Node-RED",
+            "reboot": "Reboot",
+            "shutdown": "Éteindre",
+            "ttbdoc": "Documentation de la Thingbox",
+            "nrwebsite": "Site web de Node-RED",
+            "npm": "Node",
+            "help": "Aide",
+            "about": "À propos"
+        }
+    },
+    "user": {
+        "loggedInAs": "Se connecter en tant que as __name__",
+        "login": "Indentifiant",
+        "loginFailed": "Erreur d'identifiant"
+    },
+    "notification": {
+        "warning": "<strong>Attention</strong>: __message__",
+        "warnings": {
+            "undeployedChanges": "les nodes ont des modifications non prises en comptes",
+            "nodeActionDisabled": "les nodes actions sont inactivés dans les sous-flots"
+        },
+
+        "error": "<strong>Erreur</strong>: __message__",
+        "errors": {
+            "lostConnection": "Perte de la connection serveur",
+            "cannotAddSubflowToItself": "On ne peut pas ajouter un sous-flot à lui même",
+            "cannotAddCircularReference": "Référence circulaire détéctée dans l'ajout du sous-flot"
+        }
+    },
+    "clipboard": {
+        "nodes": "Nodes:",
+        "selectNodes": "Sélectionner et copier le texte ci-dessus.",
+        "pasteNodes": "Coller les nodes ici",
+        "importNodes": "Importer les nodes",
+        "exportNodes": "Exprter les nodes dans le presse-papier",
+        "importUnrecognised": "Type non reconnu lors de l'import:",
+        "importUnrecognised_plural": "Types non reconnus lors de l'import:",
+        "nodeCopied": "Copie de __count__ node",
+        "nodeCopied_plural": "Copie de __count__ nodes",
+        "invalidFlow": "Flot non valide: __message__"
+    },
+	"npmInstallNode": {
+        "nodes": "Node:",
+        "selectNodes": "Sélectionner et copier le texte ci-dessus.",
+        "pasteNodes": "Coller le nom ou l'adresse du node ici",
+        "importNodes": "Importer des nodes",
+        "exportNodes": "Exporter des nodes dans le presse-papier",
+        "importUnrecognised": "Le type de node importé n'est pas connu:",
+        "importUnrecognised_plural": "Les types de nodes importés ne sont pas connus:",
+        "nodeCopied": "__count__ node(s) ont été copiés",
+        "nodeCopied_plural": "__count__ node(s) ont été copiés",
+        "invalidFlow": "Ce flot n'est pas valide: __message__",
+		"installFail": "l'installation du node n'a pas fonctionné"
+    },
+    "deploy": {
+        "deploy": "Activer",
+        "full": "Full",
+        "fullDesc": "Tout activer",
+        "modifiedFlows": "flots modifiés",
+        "modifiedFlowsDesc": "N'activer que les flots dont les nodes ont changé",
+        "modifiedNodes": "Nodes modifiés",
+        "modifiedNodesDesc": "N'activer que les nodes modifiés",
+        "successfulDeploy": "Activation réussie",
+        "errors": {
+            "noResponse": "pas de réponse du serveur"
+        },
+        "confirm": {
+            "button": {
+                "confirm": "Confirmer l'activation",
+                "cancel": "Annuler"
+            },
+            "undeployedChanges": "Vous avez modifié.\n\nQuitter cette page vous fait perdre vos modifications.",
+            "improperlyConfigured": "Certains nodes ne sont pas bien configurés.",
+            "unknown": "La feuille contient des types de node non connus:",
+            "unusedConfig": "La feuille contient des nodes de configuration non connus:",
+            "confirm": "Etes vous sûr ce vouloir activer ce flot?"
+        }
+    },
+    "subflow": {
+        "tabLabel": "Sous-flot: __name__",
+        "editSubflow": "Modifier flow __name__",
+        "edit": "Modifier le flot",
+        "subflowInstances": "Il y a __count__ utilisation de ce sous-flot",
+        "subflowInstances_plural": "Il y a __count__ utilisations de ce sous-flot",
+        "editSubflowName": "modifier le nom",
+        "input": "input",
+        "output": "output",
+        "deleteSubflow": "détruire le sous-flot",
+        "errors": {
+            "noNodesSelected": "<strong>Impossible de créer le sous-flot</strong>: aucun node n'est sélectionné",
+            "multipleInputsToSelection": "<strong>Impossible de créer le sous-flot</strong>: il ne faut qu'un seul point d'entrée"
+        }
+    },
+    "editor": {
+        "configEdit": "éditer",
+        "configAdd": "ajouter",
+        "configDelete": "effacer",
+        "nodesUse": "__count__ node utilise ce node configuration",
+        "nodesUse_plural": "__count__ nodes utilisent ce node configuration",
+        "addNewConfig": "Ajouter un nouveau node de type __type__",
+        "editConfig": "Editer __type__ config node",
+        "addNewType": "Ajouter un nouveau __type__..."
+    },
+    "keyboard": {
+        "selectAll": "Sélectionner tous les nodes",
+        "selectAllConnected": "Sélectionner tous les nodes connectés",
+        "addRemoveNode": "Ajouter/enlever les nodes de la sélection",
+        "deleteSelected": "Détruire les nodes ou les liens sélectionnés",
+        "importNode": "Importer les nodes",
+        "exportNode": "Export selected nodes",
+        "toggleSidebar": "Ouvrir/fermer la barre latérale",
+        "deleteNode": "Détruire les nodes ou les liens sélectionnés",
+        "copyNode": "Copier les nodes sélectionnés",
+        "cutNode": "Couper les nodes sélectionnés",
+        "pasteNode": "Coller les nodes"
+    },
+    "library": {
+        "openLibrary": "Ouvrir une Librairie...",
+        "saveToLibrary": "Sauvegarder en Librairie...",
+        "typeLibrary": "__type__ library",
+        "unnamedType": "Unnamed __type__",
+        "saveToLibrary": "Sauvegarder en librairie",
+        "exportToLibrary": "Exporter en librairie",
+        "dialogSaveOverwrite": "Ecraser la librairie déjà existante de type __libraryType__?",
+        "invalidFilename": "Nom de fichier non valide",
+        "savedNodes": "Nodes sauvegardés",
+        "savedType": "__type__ sauvegardé",
+        "saveFailed": "L'enregistrement s'est mal passé: __message__",
+
+        "filename": "Nom de fichier",
+        "folder": "Dossier",
+        "filenamePlaceholder": "fichier",
+        "fullFilenamePlaceholder": "a/b/file",
+        "folderPlaceholder": "a/b",
+
+        "breadcrumb": "Librairie"
+    },
+    "palette": {
+        "noInfo": "pas dinformation disponible",
+        "filter": "Filtre",
+        "label": {
+            "basic": "générale",
+            "subflows": "sous-flots",
+            "input": "entrée",
+            "output": "sortie",
+            "function": "fonction",
+            "social": "social",
+            "storage": "stockage",
+            "analysis": "analyse",
+            "advanced": "technique"
+        },
+        "event": {
+            "nodeAdded": "Node ajouté à la palette:",
+            "nodeAdded_plural": "Nodes ajoutés à la palette",
+            "nodeRemoved": "Node enlevé de la palette:",
+            "nodeRemoved_plural": "Nodes enlevés de la palette:",
+            "nodeEnabled": "Node activé:",
+            "nodeEnabled_plural": "Nodes activés:",
+            "nodeDisabled": "Node desactivé:",
+            "nodeDisabled_plural": "Nodes desactivés:"
+        }
+    },
+    "sidebar": {
+        "info": {
+            "name": "Information",
+            "label": "info",
+            "node": "Node",
+            "type": "Type",
+            "id": "ID",
+            "subflow": "sous-flot",
+            "instances": "Instances",
+            "properties": "Propriétés",
+            "blank": "vide",
+            "arrayItems": "__count__ items"
+        },
+        "config": {
+            "name": "Nodes de configuration",
+            "label": "config"
+        }
+    },
+    "settings": {
+        "common": {
+            "note": "<b>Note:</b> Cliquer sur OK puis Redémarrer.",
+            "reboot": "Redémarrer"
+        },
+        "navbar": {
+            "ttb": " The ThingBox ",
+            "powered": "&nbsp;propulsé par&nbsp;"
+        },
+        "hostname": {
+            "title": "Nom de l'appareil",
+            "name": " Nom",
+            "rename": "Renommer",
+            "new": "Nouveau",
+            "password": "Passe",
+            "note": "<b>Note:</b> Cliquer sur Renommer puis Redémarrer.",
+            "msg": "Pour changer le nom de votre machine vous devez utiliser votre mot de passe utilisateur.",
+            "addmes": "La nouvelle adresse de votre machine sera "
+        },
+        "account": {
+            "title": "Compte",
+            "msg": "Le compte sera créé s'il n'existe pas.",
+            "mail": " Mail",
+            "password": " Passe"
+        },
+        "wifi": {
+            "title": "WiFi",
+            "msg": "Le WiFi utilisé en ce moment est : ",
+            "notSelectedMsg": "Le WiFi n'est pas actuellement utilisé",
+            "ssid": "Nom",
+            "password": "Passe"
+        },
+        "showall": {
+            "title": "Afficher tous les espaces de travail",
+            "show": " Afficher"
+        },
+        "staticip": {
+            "title": "IP statique",
+            "interface": {
+                "label": "Interface",
+                "ethernet": "Ethernet",
+                "wifi": "WiFi"
+            },
+            "type": {
+                "label": " Type",
+                "dynamic": "Dynamique",
+                "static": "Statique"
+            },
+            "ip": "IP",
+            "netmask": "Masque de sous-réseau",
+            "gateway": "Passerelle"
+        },
+        "update": {
+            "title": "Mise à jour du système",
+            "no": "Aucune mise à jour trouvée !",
+            "yes": "Une mise à jour du système est disponible !",
+            "note": "<b>Note:</b> Redémarrer après la mise à jour.",
+            "progress": " Mise à jour du système en cours ...",
+            "update": "Mettre à jour",
+            "success": "Mise à jour réussie",
+            "error": "Un problème est survenu. Veuillez réessayer."
+        },
+        "lang": {
+            "title": "Choix de la langue",
+            "select": {
+                "label": "Langue",
+                "auto": "Automatique",
+                "en": "Anglais",
+                "fr": "Français"
+            },
+            "tips": "<b>Note:</b> Cliquer sur OK puis Redémarrer.<br><ul><li><b>Automatique</b> : Choisi la langue de votre navigateur (par défaut).</li><li><b>Anglais</b> : force la langue en Anglais.</li><li><b>Français</b> : force la langue en Français.</li></ul>"
+        },
+        "displayMode": {
+            "title": "Choix du mode d'affichage",
+            "select": {
+                "label": "Mode d'affichage",
+                "1": "1 (si vous avez acheté un TimeSquAir avant le 20 septembre 2016)",
+                "2": "2 (si vous avez acheté un TimeSquAir après le 20 septembre 2016)"
+            },
+            "tips": "<b>Note:</b> Cliquer sur OK pour valider.<br>"
+        },
+        "about": {
+            "current": "Version installée: "
+        },
+        "enable_backup": {
+            "title": "Sauvegarde automatique",
+            "label": "activer",
+            "tips": "<b>Note:</b> Une sauvegarde sera faite toutes les heures, écrasant la précédente sauvegarde.<br/>Cliquer sur OK pour valider, pas de redémarrage nécessaire."
+        },
+        "create_backup": {
+            "title": "Faire une sauvegarde",
+            "label": "sauvegarder",
+            "tips": "<b>Note:</b> Cette sauvegarde écrasera la précédente."
+        },
+        "use_backup":{
+            "title": "Utiliser la dernière sauvegarde",
+            "date": "La dernière sauvegarde date du __date__",
+            "nodate": "Aucune sauvegarde n'a été effectué avec cet appareil",
+            "tips": "<b>Note:</b> Redémarrer après la restauration.",
+            "progress": " Restauration en cours ...",
+            "update": "restauration",
+            "success": "Restauration réussie",
+            "error": "Un problème est survenu. Veuillez réessayer."
+        }
+    },
+    "cgu":{
+        "obsolete" : "Votre navigateur est obsolète, veuillez le mettre à jour.",
+        "url" : "/cgu.html",
+        "next" : "Suivant",
+        "previous" : "Précédent",
+        "submit" : "Valider",
+        "acceptCGU" : " J'accepte les CGU énoncé ci-dessus",
+        "accountWillBeCreated":"Le compte sera créé s'il n'existe pas",
+        "notConnected":"Votre Thingbox n'a pas accès à internet",
+        "cannotUseAccountOffline":"Afin de pouvoir utiliser pleinement ses services, la création d'un compte vous sera proposé quand votre Thingbox aurra accès à internet",
+        "acceptCGUonSubmit":"En cliquant sur \"Valider\", vous déclarez avoir lu, compris et accepté les CGUs",
+        "rename":"Merci de renommer le nom de votre Thingbox",
+	"title":"Création de compte / Enregistrement",
+        "mail":" e-Mail",
+        "password":" Mot de passe",
+        "confirmPassword":" Mot de passe (confirmation)",
+        "TSAName":" Le nom de votre nouvelle Thingbox",
+        "warning":"Attention",
+        "newHostnameTips":"la nouvelle adresse sera ",
+        "alreadyHostnameUsed":" est déjà utilisé sur votre réseau, choisissez un autre nom",
+        "mailDoesntCorresponding":"Le mot de passe ne correspond pas à l'email renseigné",
+        "nameAlreadyUsedOnThisAccount":"Ce compte possède déjà une Thingbox ou un TimeSquAir ayant pour nom : ",
+        "configWillBeUsed":"Sa configuration sera utilisé.",
+        "youWillBeRedirected":"Vous allez être redirigé quand votre Thingbox aura fini de redémarrer"
+    }
+}

@@ -63,13 +63,14 @@
         "when": "3.7.8",
         "ws": "1.1.1",
         "xml2js":"0.4.17",
-        "node-red-node-feedparser":"0.1.*",
-        "node-red-node-email":"0.1.*",
-        "node-red-node-twitter":"0.1.*",
-        "node-red-node-rbe":"0.1.*"
+        "node-red-node-feedparser":"0.1.8",
+        "node-red-node-email":"0.1.23",
+        "node-red-node-twitter":"0.1.11",
+        "node-red-node-rbe":"0.1.11"
     },
     "optionalDependencies": {
-        "bcrypt":"~1.0.1"
+        "bcrypt":"1.0.2",
+		"node-red-node-serialport":"0.4.4"
     },
     "devDependencies": {
         "grunt": "~1.0.1",

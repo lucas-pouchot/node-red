@@ -1,0 +1,81 @@
+
+    {
+        "id": "2e80babe.a524ee",
+        "type": "tcp in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "server": "server",
+        "host": "",
+        "port": "1880",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "",
+        "topic": "",
+        "base64": false,
+        "x": 100,
+        "y": 2320,
+        "wires": [
+            [
+                "549f36f.4e27cc8"
+            ]
+        ]
+    },
+    {
+        "id": "549f36f.4e27cc8",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var lines = msg.payload.split(\"\\r\\n\");\n\nvar tokens = lines[0].split(\" \");\nmsg.page = tokens[1];\n\ntokens = lines[1].split(\" \");\nmsg.host = tokens[tokens.length-1].split(\":\")[0];\nmsg.payload = tokens;\n\nreturn msg;",
+        "outputs": 1,
+        "x": 230,
+        "y": 2320,
+        "wires": [
+            [
+                "b2a89e3c.03ba58"
+            ]
+        ]
+    },
+    {
+        "id": "b2a89e3c.03ba58",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var page = msg.page == \"/\" ? \"\": msg.page;\n\nmsg.payload=\"HTTP/1.1 301 Moved Permanently\\r\\n\";\nmsg.payload += \"Location: http://\" + msg.host + page +\"\\r\\n\";\nmsg.payload += \"Connection: close\\r\\n\";\nmsg.payload += \"\\r\\n\";\nmsg.payload += \"\\r\\n\";\nmsg.payload += \"\\r\\n\";\n\nreturn msg;",
+        "outputs": 1,
+        "x": 350,
+        "y": 2320,
+        "wires": [
+            [
+                "88b880e0.28bf"
+            ]
+        ]
+    },
+    {
+        "id": "ff7b292e.4465f8",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Redirect http port 1880 to 80",
+        "info": "",
+        "x": 160,
+        "y": 2280,
+        "wires": []
+    },
+    {
+        "id": "88b880e0.28bf",
+        "type": "tcp out",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "host": "",
+        "port": "",
+        "beserver": "reply",
+        "base64": false,
+        "end": false,
+        "name": "",
+        "x": 470,
+        "y": 2320,
+        "wires": []
+    }

@@ -22,6 +22,14 @@ RED.workspaces = (function() {
 
     function addWorkspace(ws,skipHistoryEntry) {
         if (ws) {
+            if(
+                ((typeof RED.settings.showall != "undefined" && RED.settings.showall.valueOf() === false) || typeof RED.settings.showall === "undefined")
+                &&
+                ((RED.settings.hiddenWorkspaces && RED.settings.hiddenWorkspaces.indexOf(ws.id) != -1) || ws.label.search("ttb-") === 0)
+            ) {
+                    workspace_tabs.addHiddenTab(ws);
+                    return;
+            }
             workspace_tabs.addTab(ws);
             workspace_tabs.resize();
         } else {

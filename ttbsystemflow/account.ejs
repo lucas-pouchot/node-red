@@ -1,0 +1,124 @@
+<div aria-labelledby="ui-id-4" aria-describedby="dialog" role="dialog"
+	tabindex="-1"
+	class="setting-board ui-dialog ui-widget ui-widget-content">
+
+	<div
+		class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+		<span class="ui-dialog-title" id="ui-id-4">
+            <span id="account_title"></span>
+        </span>
+	</div>
+	
+	<div
+		style="display: block; width: auto; min-height: 26px; max-height: none; height: auto;"
+		id="dialog" class="hide ui-dialog-content ui-widget-content">
+		<form id="account-form" class="form-horizontal">
+			
+			<p style="font-family:Verdana; font-size:12px;" id="account_msg"></p>
+			
+			<div id="change-account-container">
+				<div class="form-row">
+					<label for="change-password-input"><i class="icon-tag"></i>
+                        <span id="account_mail"></span>
+                    </label>
+					<input id="change-account-input-email" type="text" name="email">
+				</div>
+				<div class="form-row">
+					<label for="change-password-input"><i class="icon-lock"></i>
+                        <span id="account_password"></span>
+                    </label>
+					<input id="change-account-input-pwd" type="password" name="pwd">
+				</div>
+				<input id="change-account-input-ttb_name" type="hidden" name="ttb_name">
+				<input id="change-account-input-ttb_id" type="hidden" name="id">
+				<input id="change-account-input-account_id" type="hidden" name="account_id">
+			</div>
+
+			<div class="form-tips note"></div>
+		</form>
+	</div>
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+		<div class="ui-dialog-buttonset">
+			<button aria-disabled="false" role="button" id="account-submit" 
+                class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only false_pwd">
+				OK
+			</button>
+		</div>
+	</div>
+
+</div>
+
+<div id="ttb-account"></div>
+
+
+<script>
+    $("#account_title").html(RED._("settings.account.title"));
+    $("#account_msg").html(RED._("settings.account.msg"));
+    $("#account_mail").html(RED._("settings.account.mail"));
+    $("#account_password").html(RED._("settings.account.password"));
+    
+	$("#change-account-container").ready(function() {
+		$.ajax({
+	       url : 'current-account',
+	       type : 'GET',
+	       dataType : 'html',
+	       success : function(data, statut){
+				data = JSON.parse(data);
+				// update form value
+				$("#change-account-input-ttb_name").val(data.ttb_name);
+				$("#change-account-input-ttb_id").val(data.id);
+				$("#change-account-input-email").val(data.email);
+                if($("#change-account-input-email").val() != ""){
+                    $("#change-account-input-pwd").val("........");
+                }
+				$("#change-account-input-account_id").val(data.account_id);
+                $(".false_pwd").button({ disabled: true });
+			},
+			error : function(result, statut, error){
+				alert(error);
+			}
+	    });
+	});
+
+
+	$("#account-submit").click(function(event){
+		var pwd = $("#change-account-input-pwd").val();
+		var email = $("#change-account-input-email").val();
+		if((!pwd || pwd == "") && (!email || email == "")) {
+			return RED.notify("Some informations are missing !", "error");
+		}
+		var datas = {
+			email: email,
+			pwd: pwd,
+			ttb_name: $("#change-account-input-ttb_name").val(),
+			id: $("#change-account-input-ttb_id").val(),
+			account_id: $("#change-account-input-account_id").val()
+		};
+		$.ajax({
+			url : 'account-id',
+		    type: 'POST',
+		    data: datas ,
+	        success : function(code_html, statut){
+	        	if(code_html.code == 200){
+	        	    RED.notify("Information updated !","success");
+	        	} else if (code_html.code == 304) {
+	        	    RED.notify("Nothing to update !","success");
+	        	} else {
+	        	    RED.notify("Bad password !","error");
+	        	}
+	        },
+	        error : function(result, statut, error){
+	        }
+		});
+	});
+    
+    $("#change-account-input-pwd").on("keyup", function() {
+        var value =  $("#change-account-input-pwd").val();
+        if(value === "........" || !value){
+            $( ".false_pwd" ).button({ disabled: true });
+        }
+        else{
+            $( ".false_pwd" ).button({ disabled: false });
+        }
+    });
+</script>

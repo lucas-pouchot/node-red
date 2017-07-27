@@ -26,6 +26,9 @@ var flows = require("./flows");
 function Node(n) {
     this.id = n.id;
     this.type = n.type;
+    if(!n.hasOwnProperty("z")){
+        this.origin = n.origin || "";
+    }
     this.z = n.z;
     this._closeCallbacks = [];
 

@@ -405,7 +405,8 @@ RED.nodes = (function() {
         return nns;
     }
 
-    function convertWorkspace(n) {
+    function convertWorkspace(n, keepOrigin) {
+    	var otherPropToSave = RED.settings.otherPropToSave;
         var node = {};
         node.id = n.id;
         node.type = n.type;
@@ -414,21 +415,33 @@ RED.nodes = (function() {
                 node[d] = n[d];
             }
         }
+        for (var prop in otherPropToSave){                            
+            if (n.hasOwnProperty(otherPropToSave[prop]) && (keepOrigin == true || otherPropToSave[prop] != "origin")) {
+                node[otherPropToSave[prop]] = n[otherPropToSave[prop]];
+            }
+        }
         return node;
     }
     /**
      * Converts a node to an exportable JSON Object
      **/
-    function convertNode(n, exportCreds) {
+    function convertNode(n, exportCreds, keepOrigin) {
         if (n.type === 'tab') {
             return convertWorkspace(n);
         }
         exportCreds = exportCreds || false;
+        var otherPropToSave = RED.settings.otherPropToSave;
         var node = {};
         node.id = n.id;
         node.type = n.type;
         node.z = n.z;
-
+	
+        for (var prop in otherPropToSave){                            
+            if (n.hasOwnProperty(otherPropToSave[prop]) && (keepOrigin == true || otherPropToSave[prop] != "origin")) {
+                node[otherPropToSave[prop]] = n[otherPropToSave[prop]];
+            }
+        }
+	
         if (node.type == "unknown") {
             for (var p in n._orig) {
                 if (n._orig.hasOwnProperty(p)) {
@@ -487,7 +500,7 @@ RED.nodes = (function() {
         return node;
     }
 
-    function convertSubflow(n) {
+    function convertSubflow(n, keepOrigin) {
         var node = {};
         node.id = n.id;
         node.type = n.type;
@@ -495,6 +508,13 @@ RED.nodes = (function() {
         node.info = n.info;
         node.in = [];
         node.out = [];
+
+        var otherPropToSave = RED.settings.otherPropToSave;
+        for (var prop in otherPropToSave){                            
+            if (n.hasOwnProperty(otherPropToSave[prop]) && (keepOrigin == true || otherPropToSave[prop] != "origin")) {
+                node[otherPropToSave[prop]] = n[otherPropToSave[prop]];
+            }
+        }
 
         n.in.forEach(function(p) {
             var nIn = {x:p.x,y:p.y,wires:[]};
@@ -580,30 +600,30 @@ RED.nodes = (function() {
     }
 
     //TODO: rename this (createCompleteNodeSet)
-    function createCompleteNodeSet(exportCredentials) {
-        if (exportCredentials === undefined) {
+    function createCompleteNodeSet(exportCredentials,keepOrigin) {
+        if (exportCredentials === undefined || exportCredentials === null) {
             exportCredentials = true;
         }
         var nns = [];
         var i;
         for (i=0;i<workspacesOrder.length;i++) {
             if (workspaces[workspacesOrder[i]].type == "tab") {
-                nns.push(convertWorkspace(workspaces[workspacesOrder[i]]));
+                nns.push(convertWorkspace(workspaces[workspacesOrder[i]], keepOrigin));
             }
         }
         for (i in subflows) {
             if (subflows.hasOwnProperty(i)) {
-                nns.push(convertSubflow(subflows[i]));
+                nns.push(convertSubflow(subflows[i], keepOrigin));
             }
         }
         for (i in configNodes) {
             if (configNodes.hasOwnProperty(i)) {
-                nns.push(convertNode(configNodes[i], exportCredentials));
+                nns.push(convertNode(configNodes[i], exportCredentials, keepOrigin));
             }
         }
         for (i=0;i<nodes.length;i++) {
             var node = nodes[i];
-            nns.push(convertNode(node, exportCredentials));
+            nns.push(convertNode(node, exportCredentials, keepOrigin));
         }
         return nns;
     }
@@ -764,7 +784,7 @@ RED.nodes = (function() {
         var configNode;
         var missingWorkspace = null;
         var d;
-
+        var otherPropToSave = RED.settings.otherPropToSave;
         // Find all tabs and subflow templates
         for (i=0;i<newNodes.length;i++) {
             n = newNodes[i];
@@ -886,6 +906,11 @@ RED.nodes = (function() {
                             }
                         }
                     }
+                    for (var prop in otherPropToSave){
+                        if (n.hasOwnProperty(otherPropToSave[prop])) {
+                            configNode[otherPropToSave[prop]] = n[otherPropToSave[prop]];
+                        }
+                    }
                     configNode.label = def.label;
                     configNode._def = def;
                     if (createNewIds) {
@@ -935,7 +960,11 @@ RED.nodes = (function() {
                                 }
                             }
                         }
-                        node.id = getID();
+                        if (!n.hasOwnProperty("origin") || getNode(n.id) != null){
+                            node.id = getID();
+                        } else {
+                            node.id = n.id;
+                        }
                     } else {
                         node.id = n.id;
                         if (node.z == null || (!workspaces[node.z] && !subflow_map[node.z])) {
@@ -1011,6 +1040,11 @@ RED.nodes = (function() {
                                     }
                                 }
                             }
+                        }
+                    }
+                    for (var prop in otherPropToSave){
+                        if (n.hasOwnProperty(otherPropToSave[prop])) {
+                            node[otherPropToSave[prop]] = n[otherPropToSave[prop]];
                         }
                     }
                     addNode(node);

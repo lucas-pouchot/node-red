@@ -1,0 +1,54 @@
+<div class="form-row">
+	<label for="change-password-input"><i class="icon-tag"></i>
+        <span id="hostname_name"></span>
+    </label>
+    <input id="change-password-input" type="text" name="value" readonly="readonly">
+    <a id="settings-rename" class="btn"><i class="fa fa-pencil"></i></a>
+</div>
+
+<style>
+    input[readonly]#change-password-input {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    var account;
+    $("#hostname_name").html(RED._("settings.hostname.name"));
+    $("#verif_ok").css("width", "auto");
+    
+    var renameFunc = function () {
+        $(".new_name").show();
+        $(".new_add").show();
+        $("#settings-rename").hide();
+        $('#change-password-input').prop('readonly', false);
+        $.ajax({
+	       url : 'current-account',
+	       type : 'GET',
+	       dataType : 'html',
+	       success : function(data, statut){
+				data = JSON.parse(data);
+                data.verif = "true";
+                account = data;
+                //account.pwd = $("#hostname_password").val();
+                account.new_name = $("#change-password-input").val();
+                if(data.email && data.account_id){
+                    /*$(".with_account").show();
+                    $('#hostname_password').on('input propertychange paste', function() {
+                        account.pwd = $("#hostname_password").val();
+                        account.new_name = $("#change-password-input").val();
+                    });*/
+                    $('#change-password-input').on('input propertychange paste', function() {
+                       // account.pwd = $("#hostname_password").val();
+                        account.new_name = $("#change-password-input").val();
+                    });
+                }
+			},
+			error : function(result, statut, error){
+				console.log("An error as occured when trying to GET the account datas from your device.");
+			}
+	    });
+    };
+    $("#change-password-input").click(renameFunc);
+    $("#settings-rename").click(renameFunc);
+</script>

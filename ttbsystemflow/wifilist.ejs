@@ -1,0 +1,24 @@
+<div id="wifilist">
+	
+	<div class="form-row">
+		<label for="wifilist-ssid"><i class="icon-tag"></i>
+			 <span id="wifi_ssid"></span>
+            </label><select id="wifilist-ssid" name="ssid">
+			<% payload.forEach(function(wifi) { %>
+			<option name="<%=wifi.essid%>"> <%=wifi.essid%></option> <%
+			}) %>
+		</select>
+	</div>
+	
+	<div class="form-row">
+		<label for="wifilist-password"><i class="icon-lock"></i>
+            <span id="wifi_password"></span>
+        </label><input id="wifilist-password" type="text" name="password">
+	</div>
+	
+</div>
+
+<script>
+    $("#wifi_ssid").html(RED._("settings.wifi.ssid"));
+    $("#wifi_password").html(RED._("settings.wifi.password"));
+</script>

@@ -1,0 +1,20 @@
+
+	{
+        "id": "MQTT.Localhost",
+        "type": "mqtt-broker",
+        "z": "",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "15",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    }

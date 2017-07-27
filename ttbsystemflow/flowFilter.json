@@ -1,0 +1,107 @@
+    
+    {
+        "id": "MQTT.HomeKeeper",
+        "type": "mqtt-broker",
+        "z": "",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "15",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    },
+    {
+        "id": "e5460e76.d13e3",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/flowFilter",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 3520,
+        "wires": [
+            [
+                "36acff4e.c64da8"
+            ]
+        ]
+    },
+    {
+        "id": "243cb801.99d1a8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 690,
+        "y": 3520,
+        "wires": []
+    },
+    {
+        "id": "36acff4e.c64da8",
+        "type": "http request",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "/flows",
+        "x": 330,
+        "y": 3520,
+        "wires": [
+            [
+                "d69b1c4f.fdf808"
+            ]
+        ]
+    },
+    {
+        "id": "d69b1c4f.fdf808",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var flows  = JSON.parse(msg.payload),\n    filter = msg.filter,\n    result = [];\n\nfor(var i = 0; i < flows.length; i++) {\n    if (flows[i].hasOwnProperty(\"extra\")) {\n        if(flows[i][\"extra\"][\"ui\"] === true) {\n            result.push(flows[i]);\n        }\n    }\n}\nmsg.payload = JSON.stringify(result, null, 4);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 490,
+        "y": 3520,
+        "wires": [
+            [
+                "243cb801.99d1a8",
+                "3900f2a0.226f3e"
+            ]
+        ]
+    },
+    {
+        "id": "a929a34d.099e4",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Filter for the total flows",
+        "info": "",
+        "x": 140,
+        "y": 3480,
+        "wires": []
+    },
+    {
+        "id": "3900f2a0.226f3e",
+        "type": "mqtt out",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "topic": "allDevices",
+        "qos": "0",
+        "retain": "false",
+        "broker": "MQTT.HomeKeeper",
+        "x": 710,
+        "y": 4300,
+        "wires": []
+    }

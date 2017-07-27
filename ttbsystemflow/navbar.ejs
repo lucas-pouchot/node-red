@@ -1,0 +1,29 @@
+<div id="header">
+    <span class="logo">
+		<a target="_blank" href="http://thethingbox.io"><img src="/logo.png" style="height: 30px;"></a>
+		<span id="powered"></span>
+ 		<a target="_blank" href="http://nodered.org/"><img src="/red/images/node-red.png" style="height:auto;"> <span>Node-RED</span></a>
+	</span>
+
+	<span id="main_reboot-group" class="deploy-button-group button-group" style="margin-top: 5px;">
+	    <a id="main_reboot-link" class="deploy-button button-reboot" href="#">
+	        <i class="fa fa-refresh"></i> <span id="main_reboot-btn"></span>
+	    </a>
+	</span>
+
+</div>
+<style>
+    #main_reboot-link {
+        text-align: center;
+        width: 100px;
+    }
+    #main_reboot-group {
+        position: absolute;
+        right: 25px;
+        height: 30px;
+    }
+</style>
+<script>
+    $("#main_reboot-btn").html(RED._("settings.common.reboot"));
+    $("#powered").html(RED._("settings.navbar.powered"));
+</script>

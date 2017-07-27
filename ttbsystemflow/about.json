@@ -1,0 +1,86 @@
+
+    {
+        "id": "2434f3ce.15072c",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/about",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 2220,
+        "wires": [
+            [
+                "53df859f.d287a4"
+            ]
+        ]
+    },
+    {
+        "id": "53df859f.d287a4",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "ttb package.json",
+        "filename": "/root/thethingbox/package.json",
+        "format": "utf8",
+        "x": 310,
+        "y": 2220,
+        "wires": [
+            [
+                "7400b62c.efc9d8"
+            ]
+        ]
+    },
+    {
+        "id": "1d3328bd.b8611f",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 710,
+        "y": 2220,
+        "wires": []
+    },
+    {
+        "id": "322d3a98.99b09e",
+        "type": "template",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "field": "payload",
+        "format": "handlebars",
+        "template": "<div class=\"setting-board ui-dialog ui-widget ui-widget-content\">\n    <div style=\"text-align: center;display: block; width: auto;\"\n\t\tid=\"dialog\" class=\"hide ui-dialog-content ui-widget-content\">\n        <b style=\"text-transform:uppercase;\">{{payload.name}}</b><br>\n        <span id=\"about_current\"></span><code>{{payload.version}}</code><br>\n        <a target=\"_blank\" href=\"{{payload.homepage}}\">© <span id=\"year\"></span> Digital Airways</a>\n    </div>\n</div>\n\n<script>\n    $(\"#about_current\").html(RED._(\"settings.about.current\"));\n    $(\"#year\").html(new Date().getFullYear());\n</script>",
+        "x": 590,
+        "y": 2220,
+        "wires": [
+            [
+                "1d3328bd.b8611f"
+            ]
+        ]
+    },
+    {
+        "id": "7400b62c.efc9d8",
+        "type": "json",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 470,
+        "y": 2220,
+        "wires": [
+            [
+                "322d3a98.99b09e"
+            ]
+        ]
+    },
+    {
+        "id": "6ccfb7f9.7ad16",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "About form",
+        "info": "",
+        "x": 100,
+        "y": 2180,
+        "wires": []
+    }

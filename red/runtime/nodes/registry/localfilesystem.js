@@ -98,6 +98,8 @@ function getLocalNodeFiles(dir) {
                 if (info) {
                     result.push(info);
                 }
+            } else if(fn === "flows.json") {
+                events.emit("node-flows-file", path.join(dir, fn));
             }
         } else if (stats.isDirectory()) {
             // Ignore /.dirs/, /lib/ /node_modules/

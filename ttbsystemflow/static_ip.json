@@ -1,0 +1,186 @@
+
+    {
+        "id": "e872f58d.6859d8",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Static IP",
+        "info": "",
+        "x": 100,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "1e35818e.2c7c36",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/static_ip",
+        "method": "get",
+        "x": 130,
+        "y": 420,
+        "wires": [
+            [
+                "d8457331.1ba9"
+            ]
+        ]
+    },
+    {
+        "id": "d8457331.1ba9",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=interfaces'+\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "e1e312fe.cbe56"
+            ]
+        ]
+    },
+    {
+        "id": "e1e312fe.cbe56",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 410,
+        "y": 420,
+        "wires": [
+            [
+                "64220756.abac98"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "64220756.abac98",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var interfaces = msg.payload.split('\\n');\nfor(var i = 0; i < interfaces.length; i++){\n    if(interfaces[i].search(\"iface\") != -1){\n        if(interfaces[i].search(\"wlan0\") != -1 ){\n            if(interfaces[i].search(\"dhcp\") != -1){\n                msg.wifi = \"dynamic\";\n                msg.wifiaddress = \"\";\n                msg.wifinetmask = \"\";\n                msg.wifigateway = \"\";\n            } else if(interfaces[i].search(\"static\") != -1) {\n                msg.wifi = \"static\";\n                msg.wifiaddress = interfaces[i+2].replace(\"\\taddress\", \"\").replace(/[\\n\\r]/g, \"\").trim();\n                msg.wifinetmask = interfaces[i+3].replace(\"\\tnetmask\", \"\").replace(/[\\n\\r]/g, \"\").trim();\n                msg.wifigateway = interfaces[i+4].replace(\"\\tgateway\", \"\").replace(/[\\n\\r]/g, \"\").trim();\n            }\n        }\n        if(interfaces[i].search(\"eth0\") != -1 ){\n            if(interfaces[i].search(\"dhcp\") != -1){\n                msg.eth = \"dynamic\";\n                msg.ethaddress = msg.eth0add || \"\";\n                msg.ethnetmask = \"\";\n                msg.ethgateway = \"\";\n            } else if(interfaces[i].search(\"static\") != -1) {\n                msg.eth = \"static\";\n                msg.ethaddress = interfaces[i+1].replace(\"\\taddress\", \"\").replace(/[\\n\\r]/g, \"\").trim();\n                msg.ethnetmask = interfaces[i+2].replace(\"\\tnetmask\", \"\").replace(/[\\n\\r]/g, \"\").trim();\n                msg.ethgateway = interfaces[i+3].replace(\"\\tgateway\", \"\").replace(/[\\n\\r]/g, \"\").trim();\n            }\n        }\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 530,
+        "y": 420,
+        "wires": [
+            [
+                "c2b65a3.8fb98a8"
+            ]
+        ]
+    },
+    {
+        "id": "c2b65a3.8fb98a8",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Static IP",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/static_ip.ejs",
+        "reloadfile": true,
+        "x": 660,
+        "y": 420,
+        "wires": [
+            [
+                "c871c591.08ac8"
+            ]
+        ]
+    },
+    {
+        "id": "c871c591.08ac8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 790,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2586cdc6.82e3ea",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/handle/static_ip",
+        "method": "get",
+        "x": 140,
+        "y": 1000,
+        "wires": [
+            [
+                "e8eddb95.8c3af",
+                "6884afaf.1b7e1"
+            ]
+        ]
+    },
+    {
+        "id": "8e99095f.091ae8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 430,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "e8eddb95.8c3af",
+        "type": "ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "ejs": "Request submitted.",
+        "x": 310,
+        "y": 980,
+        "wires": [
+            [
+                "8e99095f.091ae8"
+            ]
+        ]
+    },
+    {
+        "id": "6884afaf.1b7e1",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "parse query",
+        "func": "\nreturn {\n\tpayload: msg.req.query\n};",
+        "outputs": 1,
+        "x": 330,
+        "y": 1020,
+        "wires": [
+            [
+                "96cb6138.8e6c8"
+            ]
+        ]
+    },
+    {
+        "id": "96cb6138.8e6c8",
+        "type": "interfaces",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 480,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "6e728b59.3e9f8c",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Static IP",
+        "info": "",
+        "x": 100,
+        "y": 960,
+        "wires": []
+    }

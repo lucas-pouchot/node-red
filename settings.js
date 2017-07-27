@@ -19,8 +19,9 @@
 //var fs = require("fs");
 
 module.exports = {
-    // the tcp port that the Node-RED web server is listening on
-    uiPort: process.env.PORT || 1880,
+    // the tcp port that the Node-RED web server is listening on    
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
+    //uiPort: process.env.PORT || 1880,
 
     // By default, the Node-RED UI accepts connections on all IPv4 interfaces.
     // The following property can be used to listen on a specific interface. For
@@ -45,7 +46,7 @@ module.exports = {
     //httpRequestTimeout: 120000,
 
     // The maximum length, in characters, of any message sent to the debug sidebar tab
-    debugMaxLength: 1000,
+    debugMaxLength: 2000,
 
     // To disable the option for using local files for storing keys and certificates in the TLS configuration
     //  node, set this to true
@@ -55,10 +56,12 @@ module.exports = {
     //debugUseColors: true,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //flowFile: 'flows.json',
 
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //flowFilePretty: true,
 
     // By default, credentials are encrypted in storage using a generated key. To
@@ -67,10 +70,11 @@ module.exports = {
     // Note: once you set this property, do not change it - doing so will prevent
     // node-red from being able to decrypt your existing credentials and they will be
     // lost.
-    //credentialSecret: "a-secret-key",
+    credentialSecret: "TheThingBoxKey",
 
     // By default, all user data is stored in the Node-RED install directory. To
     // use a different location, the following property can be used
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //userDir: '/home/nol/.node-red/',
 
     // Node-RED scans the `nodes` directory in the install directory to find nodes.
@@ -80,12 +84,14 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specifiy a different root path.
     // If set to false, this is disabled.
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //httpAdminRoot: '/admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
     // can be used to specifiy a different root path. If set to false, this is
     // disabled.
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //httpNodeRoot: '/red-nodes',
 
     // The following property can be used in place of 'httpAdminRoot' and 'httpNodeRoot',
@@ -149,6 +155,7 @@ module.exports = {
     // in the HTTP nodes.
     // See https://github.com/troygoode/node-cors#configuration-options for
     // details on its contents. The following is a basic permissive set of options:
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //httpNodeCors: {
     //    origin: "*",
     //    methods: "GET,PUT,POST,DELETE"
@@ -196,18 +203,20 @@ module.exports = {
     //    functionGlobalContext: { os:require('os') }
     // can be accessed in a function block as:
     //    context.global.os
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
 
-    functionGlobalContext: {
+    //functionGlobalContext: {
         // os:require('os'),
         // octalbonescript:require('octalbonescript'),
         // jfive:require("johnny-five"),
         // j5board:require("johnny-five").Board({repl:false})
-    },
+    //},
 
     // The following property can be used to order the categories in the editor
     // palette. If a node's category is not in the list, the category will get
     // added to the end of the palette.
     // If not set, the following default order is used:
+    // Overwriten by TheThingBox. Read the /root/thethingbox/thethingbox.js file
     //paletteCategories: ['subflows', 'input', 'output', 'function', 'social', 'mobile', 'storage', 'analysis', 'advanced'],
 
     // Configure the logging output

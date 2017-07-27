@@ -10,7 +10,6 @@
  - Modify messages in node properties to refer messages.json (#1339)
  - Fix settings.js replacing webSocketVerifyClient by webSocketNodeVerifyClient (#1343)
 
-
 #### 0.17.4: Maintenance Release
 
  - Add request node test case for POSTing 0
@@ -30,7 +29,6 @@
  - Restore File In node behaviour of sending msg on error
  - Expose context.keys within Function node
  - JSON parser default should be not formatting output
-
 
 #### 0.17.3: Maintenance Release
 

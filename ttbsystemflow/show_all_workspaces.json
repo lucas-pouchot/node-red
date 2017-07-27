@@ -1,0 +1,130 @@
+
+    {
+        "id": "b7487335.781028",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/form/show_all",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 1520,
+        "wires": [
+            [
+                "34441f25.5caeb"
+            ]
+        ]
+    },
+    {
+        "id": "92551122.d4b45",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 610,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "4f4c0450.a6e2d4",
+        "type": "file ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Show all",
+        "filename": "/root/thethingbox/node_modules/node-red/flow/show_all.ejs",
+        "reloadfile": true,
+        "x": 480,
+        "y": 1520,
+        "wires": [
+            [
+                "92551122.d4b45"
+            ]
+        ]
+    },
+    {
+        "id": "2206d474.2376ec",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Show all workspaces",
+        "info": "",
+        "x": 140,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "5e91808a.12714",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/handle/show_all",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 1580,
+        "wires": [
+            [
+                "1677e907.94d00f",
+                "42850e4f.dd631"
+            ]
+        ]
+    },
+    {
+        "id": "bbcf7d01.ff9ca8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 430,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "1677e907.94d00f",
+        "type": "ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "ejs": "Request submitted.",
+        "x": 310,
+        "y": 1560,
+        "wires": [
+            [
+                "bbcf7d01.ff9ca8"
+            ]
+        ]
+    },
+    {
+        "id": "42850e4f.dd631",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "parse query",
+        "func": "if(msg.req.query.workspaces === \"on\"){\n    context.global.settings.showall =  true;\n}\nelse {\n    context.global.settings.showall =  false;\n}\ncontext.global.settingslib.writeSettings(context.global.settings);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 1600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "34441f25.5caeb",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "check.checkox",
+        "func": "if(context.global.settings.showall ===  true){\n    msg.payload =  true;\n}\nelse {\n    msg.payload =  false;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 1520,
+        "wires": [
+            [
+                "4f4c0450.a6e2d4"
+            ]
+        ]
+    }

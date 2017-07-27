@@ -327,6 +327,11 @@ RED.tabs = (function() {
                     })
                 }
             },
+            addHiddenTab: function(tab){
+                tabs[tab.id] = tab;
+                var li = $("<span/>",{style:"block:none;"}).appendTo(ul);
+                li.data("tabId",tab.id);
+            },
             removeTab: removeTab,
             activateTab: activateTab,
             nextTab: activateNextTab,
@@ -339,6 +344,9 @@ RED.tabs = (function() {
                 return ul.find("a[href='#"+id+"']").length > 0;
             },
             renameTab: function(id,label) {
+                if(!tabs.hasOwnProperty(id)){
+                    return;
+                }
                 tabs[id].label = label;
                 var tab = ul.find("a[href='#"+id+"']");
                 tab.attr("title",label);

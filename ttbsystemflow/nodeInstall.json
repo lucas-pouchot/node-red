@@ -1,0 +1,450 @@
+
+    {
+        "id": "cf688e9c.d21a08",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/npm/:action",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 2460,
+        "wires": [
+            [
+                "88e0dc23.6c4028"
+            ]
+        ]
+    },
+    {
+        "id": "88e0dc23.6c4028",
+        "type": "change",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "switch",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "to": "payload.node",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 2460,
+        "wires": [
+            [
+                "2a16af82.ca2438"
+            ]
+        ]
+    },
+    {
+        "id": "2a16af82.ca2438",
+        "type": "switch",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "property": "payload",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 410,
+        "y": 2460,
+        "wires": [
+            [
+                "f3f206da.0c0df8"
+            ],
+            [
+                "2c902753.d92b5"
+            ]
+        ]
+    },
+    {
+        "id": "f3f206da.0c0df8",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "set url",
+        "func": "msg.url = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 530,
+        "y": 2420,
+        "wires": [
+            [
+                "29217d3a.d6de82"
+            ]
+        ]
+    },
+    {
+        "id": "29217d3a.d6de82",
+        "type": "http request",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "method": "GET",
+        "ret": "bin",
+        "url": "",
+        "x": 690,
+        "y": 2420,
+        "wires": [
+            [
+                "f54b00a7.0ab5"
+            ]
+        ]
+    },
+    {
+        "id": "f54b00a7.0ab5",
+        "type": "unzip",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "unzip",
+        "destpath": "/root/userdir/node_modules/",
+        "x": 830,
+        "y": 2420,
+        "wires": [
+            [
+                "a7f289ff.580d78"
+            ]
+        ]
+    },
+    {
+        "id": "a7f289ff.580d78",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var path = msg.headers[\"content-disposition\"].split(\"filename=\")[1].split(\".zip\")[0];\nmsg.headers = null;\nmsg.payload = \" /root/userdir/node_modules/\" + path + \";npm install --unsafe-perm\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 950,
+        "y": 2420,
+        "wires": [
+            [
+                "34ff8ffb.cb007"
+            ]
+        ]
+    },
+    {
+        "id": "34ff8ffb.cb007",
+        "type": "exec",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "command": "cd ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "name": "",
+        "x": 1070,
+        "y": 2420,
+        "wires": [
+            [
+                "5234a872.1c6c6"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5234a872.1c6c6",
+        "type": "template",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Response",
+        "field": "payload",
+        "format": "json",
+        "template": "{\n    \"action\":\"OK\",\n    \"message\":\"Everything was ok\"\n}",
+        "x": 1210,
+        "y": 2420,
+        "wires": [
+            [
+                "7e0bf4c4.a75884"
+            ]
+        ]
+    },
+    {
+        "id": "7e0bf4c4.a75884",
+        "type": "delay",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1360,
+        "y": 2420,
+        "wires": [
+            [
+                "5706bcf6.aa15dc"
+            ]
+        ]
+    },
+    {
+        "id": "5706bcf6.aa15dc",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 1490,
+        "y": 2420,
+        "wires": []
+    },
+    {
+        "id": "2c902753.d92b5",
+        "type": "switch",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "property": "req.params.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "uninstall",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "install",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 530,
+        "y": 2500,
+        "wires": [
+            [
+                "d5faf266.2211c8"
+            ],
+            [
+                "991a25fb.83138"
+            ]
+        ]
+    },    
+    {
+        "id": "d5faf266.2211c8",
+        "type": "npm",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "nodename": "ttb",
+        "method": "uninstall",
+        "path": "/root/userdir",
+        "name": "uninstall",
+        "x": 660,
+        "y": 2480,
+        "wires": [
+            [
+                "a283c8b0.9429e8"
+            ]
+        ]
+    },
+    {
+        "id": "a283c8b0.9429e8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 790,
+        "y": 2480,
+        "wires": []
+    },    
+    {
+        "id": "991a25fb.83138",
+        "type": "npm",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "nodename": "ttb",
+        "method": "install",
+        "path": "/root/userdir",
+        "name": "install",
+        "x": 650,
+        "y": 2520,
+        "wires": [
+            [
+                "925dc18.13e084"
+            ]
+        ]
+    },
+    {
+        "id": "925dc18.13e084",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 790,
+        "y": 2520,
+        "wires": []
+    },
+    {
+        "id": "3e620ab.a619af6",
+        "type": "watch",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "files": "/root/userdir/node_modules",
+        "x": 160,
+        "y": 2620,
+        "wires": [
+            [
+                "76666308.e6d684"
+            ]
+        ]
+    },
+    {
+        "id": "76666308.e6d684",
+        "type": "delay",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 360,
+        "y": 2620,
+        "wires": [
+            [
+                "6d2874f6.97ed4c"
+            ]
+        ]
+    },
+    {
+        "id": "6d2874f6.97ed4c",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var tmp = msg.payload;\nmsg={};\nmsg.payload = tmp+\"/lib/flows\";\nmsg.directory = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 490,
+        "y": 2620,
+        "wires": [
+            [
+                "a391079d.696f18"
+            ]
+        ]
+    },
+    {
+        "id": "a391079d.696f18",
+        "type": "exec",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "command": "ls ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": false,
+        "name": "",
+        "x": 610,
+        "y": 2620,
+        "wires": [
+            [
+                "d9f480f5.95bda"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "d9f480f5.95bda",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "var tmp=msg.payload.split(\"\\n\");\ntmp.pop();\n\nvar myMsg={\"payload\":[]};\nfor(var i=0;i<tmp.length;i++){\n    var myObject = {};\n    myObject.directory = msg.directory;\n    myObject.file = tmp[i];\n    myMsg.payload.push(myObject);\n}\nreturn myMsg;",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 730,
+        "y": 2620,
+        "wires": [
+            [
+                "d6e4851b.49327"
+            ]
+        ]
+    },
+    {
+        "id": "d6e4851b.49327",
+        "type": "splitter",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "property": "payload",
+        "x": 850,
+        "y": 2620,
+        "wires": [
+            [
+                "c36e3c5c.ad2238"
+            ]
+        ]
+    },
+    {
+        "id": "c36e3c5c.ad2238",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "msg.payload = \"'\"+msg.payload.directory+\"/\"+msg.payload.file + \"' '/root/userdir/lib/flows/\"+msg.payload.file+\"'\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 970,
+        "y": 2620,
+        "wires": [
+            [
+                "baf51717.22aec8"
+            ]
+        ]
+    },
+    {
+        "id": "baf51717.22aec8",
+        "type": "exec",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "command": "ln ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": false,
+        "name": "",
+        "x": 1090,
+        "y": 2620,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5e5eb0bf.6458b8",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Node install flows",
+        "info": "",
+        "x": 120,
+        "y": 2420,
+        "wires": []
+    }

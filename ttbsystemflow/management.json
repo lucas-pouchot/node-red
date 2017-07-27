@@ -1,0 +1,280 @@
+
+    {
+        "id": "restart",
+        "type": "go",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 670,
+        "y": 1320,
+        "wires": [
+            [
+                "248cfa4a.86ea86"
+            ]
+        ]
+    },
+    {
+        "id": "248cfa4a.86ea86",
+        "type": "notifyUI",
+        "z": "system",
+        "name": "",
+        "notification": "Node-RED restarting ...",
+        "notificationType": "error",
+        "fix": false,
+        "defaultTout": true,
+        "timeout": "",
+        "timeoutUnits": "",
+        "x": 800,
+        "y": 1320,
+        "wires": [
+            [
+                "8008ec3.cdc201"
+            ]
+        ]
+    },
+    {
+        "id": "8008ec3.cdc201",
+        "type": "exec",
+        "z": "system",
+        "command": "basename \"$(head /proc/1/cgroup)\"",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "container ID",
+        "x": 950,
+        "y": 1320,
+        "wires": [
+            [
+                "9d87fa04.eb4018"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9d87fa04.eb4018",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.containerID = msg.payload.replace(/\\n/g,'');\nmsg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=restart'+\n    '&value='+ encodeURI(msg.containerID) +\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1090,
+        "y": 1320,
+        "wires": [
+            [
+                "907e4fbe.195f"
+            ]
+        ]
+    },
+    {
+        "id": "907e4fbe.195f",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 1210,
+        "y": 1320,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "94f9f0db.e0788",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "restart Node-RED",
+        "info": "",
+        "x": 710,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "reboot",
+        "type": "go",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 90,
+        "y": 1320,
+        "wires": [
+            [
+                "903f8d79.9bd3e"
+            ]
+        ]
+    },
+    {
+        "id": "903f8d79.9bd3e",
+        "type": "notifyUI",
+        "z": "system",
+        "name": "",
+        "notification": "Rebooting ...",
+        "notificationType": "",
+        "fix": false,
+        "defaultTout": true,
+        "timeout": "",
+        "timeoutUnits": "",
+        "x": 220,
+        "y": 1320,
+        "wires": [
+            [
+                "aba01b57.f9f048"
+            ]
+        ]
+    },
+    {
+        "id": "aba01b57.f9f048",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=reboot'+\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 1320,
+        "wires": [
+            [
+                "5f2a36e9.dd2ae8"
+            ]
+        ]
+    },
+    {
+        "id": "5f2a36e9.dd2ae8",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 470,
+        "y": 1320,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "c53b3211.d4d2b",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "reboot TimeSquAir",
+        "info": "",
+        "x": 130,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "8c8e0699.c967",
+        "type": "mqtt in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "Localhost",
+        "topic": "a/b/c",
+        "broker": "MQTT.Localhost",
+        "x": 100,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "88b43764.1113e8",
+        "type": "comment",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "To avoid \"unused config node\"",
+        "info": "",
+        "x": 170,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "shutdown",
+        "type": "go",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 90,
+        "y": 1220,
+        "wires": [
+            [
+                "4e370dff.6cfd24"
+            ]
+        ]
+    },
+    {
+        "id": "4e370dff.6cfd24",
+        "type": "notifyUI",
+        "z": "system",
+        "name": "",
+        "notification": "Shutdown ...",
+        "notificationType": "error",
+        "fix": false,
+        "defaultTout": true,
+        "timeout": "",
+        "timeoutUnits": "",
+        "x": 220,
+        "y": 1220,
+        "wires": [
+            [
+                "f9f048.aba01b57"
+            ]
+        ]
+    },
+    {
+        "id": "f9f048.aba01b57",
+        "type": "function",
+        "z": "system",
+        "name": "",
+        "func": "msg.payload = 'curl '+\n    '\"http://172.17.0.1:8080/admin/1dccadfed7bcbb036c56a4afb97e906f?'+\n    'command=exec'+\n    '&value='+ encodeURI(\"shutdown -h now\") +\n    '\"';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 1220,
+        "wires": [
+            [
+                "7b4bcaed.98d754"
+            ]
+        ]
+    },
+    {
+        "id": "7b4bcaed.98d754",
+        "type": "exec",
+        "z": "system",
+        "command": " ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "oldrc": false,
+        "name": "",
+        "x": 470,
+        "y": 1220,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "11a85969.2ac627",
+        "type": "comment",
+        "z": "system",
+        "name": "shutdown TimeSquAir",
+        "info": "",
+        "x": 140,
+        "y": 1180,
+        "wires": []
+    }

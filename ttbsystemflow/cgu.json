@@ -1,0 +1,334 @@
+
+    {
+        "id": "db66e06.f24992",
+        "type": "commentdown",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "CGU",
+        "info": "",
+        "x": 90,
+        "y": 3060,
+        "wires": []
+    },
+    {
+        "id": "af4d8099.50b28",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/cgu-flags",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 3100,
+        "wires": [
+            [
+                "f1585049.0ea7b"
+            ]
+        ]
+    },
+    {
+        "id": "fc4d21a.f03b2e",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 410,
+        "y": 3100,
+        "wires": []
+    },
+    {
+        "id": "f1585049.0ea7b",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "cgu-flags",
+        "func": "msg.payload = {\n    \"CGUReaded\":context.global.settings.CGUReaded,\n    \"AccountCreated\":context.global.settings.AccountCreated\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 3100,
+        "wires": [
+            [
+                "fc4d21a.f03b2e"
+            ]
+        ]
+    },
+    {
+        "id": "7b154baa.84eab4",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/cgu-connected",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 3200,
+        "wires": [
+            [
+                "8ea79268.71587"
+            ]
+        ]
+    },
+    {
+        "id": "d399f46c.2c6608",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 790,
+        "y": 3200,
+        "wires": []
+    },
+    {
+        "id": "8ea79268.71587",
+        "type": "exec",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "command": "curl --head http://mythingbox.io 2>&1",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 390,
+        "y": 3200,
+        "wires": [
+            [
+                "f950a181.06af6"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f950a181.06af6",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "extract infos",
+        "func": "var error = \"Could not resolve host\"\ntry {\n    msg.payload = msg.payload.replace(/\\n/g,\" \").replace(/\\r/g,\" \").trim();\n} catch(e) {\n    msg.payload = error;\n}\nif (msg.payload.indexOf(error) == -1){\n    msg.payload = \"200\";\n}\nelse {\n    msg.payload = \"408\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 3200,
+        "wires": [
+            [
+                "d399f46c.2c6608"
+            ]
+        ]
+    },
+    {
+        "id": "6a3662ab.95c99c",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/cgu-flags",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 3140,
+        "wires": [
+            [
+                "18fda505.e7025b"
+            ]
+        ]
+    },
+    {
+        "id": "a17b0ebb.5e84f",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 750,
+        "y": 3120,
+        "wires": []
+    },
+    {
+        "id": "2212725c.dded8e",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "cgu-flags",
+        "func": "msg.payload = JSON.parse(msg.payload);\nmsg.payload.AccountCreated = msg.AccountCreated;\nmsg.payload.CGUReaded = msg.CGUReaded;\nmsg.payload.AccountLater = msg.AccountLater;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 620,
+        "y": 3140,
+        "wires": [
+            [
+                "a17b0ebb.5e84f",
+                "1e7ae25b.e1851e"
+            ]
+        ]
+    },
+    {
+        "id": "bc29b00b.43d65",
+        "type": "file in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "filename": "/root/settings.json",
+        "format": "utf8",
+        "x": 450,
+        "y": 3140,
+        "wires": [
+            [
+                "2212725c.dded8e"
+            ]
+        ]
+    },
+    {
+        "id": "18fda505.e7025b",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "cgu-flags",
+        "func": "try {\n    msg.payload = JSON.parse(msg.req.body);\n} catch (e) {\n    msg.payload = msg.req.body;\n}\n\nmsg.CGUReaded = msg.payload.CGUReaded;\nmsg.AccountCreated = msg.payload.AccountCreated;\nmsg.AccountLater = msg.payload.AccountLater;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 3140,
+        "wires": [
+            [
+                "bc29b00b.43d65"
+            ]
+        ]
+    },
+    {
+        "id": "1e7ae25b.e1851e",
+        "type": "file",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "filename": "/root/settings.json",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 790,
+        "y": 3160,
+        "wires": []
+    },
+    {
+        "id": "be5520c3.41aae",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/handle/change-hostname",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 700,
+        "wires": [
+            [
+                "21d6a223.de295e",
+                "425142d6.bdaebc"
+            ]
+        ]
+    },
+    {
+        "id": "21d6a223.de295e",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "parse query",
+        "func": "\n\n//console.log(JSON.stringify(msg.req.query));\n\n//console.log(JSON.stringify(msg.req.query.value));\nif (msg.payload.hasOwnProperty(\"hostname\")){\n    return {payload: msg.payload.hostname};\n} else{\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 720,
+        "wires": [
+            [
+                "20c18703.afbb48"
+            ]
+        ]
+    },
+    {
+        "id": "20c18703.afbb48",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "lowercase",
+        "func": "if (typeof msg.payload === 'string') {\n    msg.payload = msg.payload.toLowerCase();\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 720,
+        "wires": [
+            [
+                "2330269c.89ba5a"
+            ]
+        ]
+    },
+    {
+        "id": "425142d6.bdaebc",
+        "type": "ejs",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "ejs": "Request submitted.",
+        "x": 370,
+        "y": 680,
+        "wires": [
+            [
+                "d0b42b50.2f4bd8"
+            ]
+        ]
+    },
+    {
+        "id": "d0b42b50.2f4bd8",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 530,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "f60b631b.09f4a",
+        "type": "http in",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "url": "/keepalive",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 3260,
+        "wires": [
+            [
+                "addf39ca.5220c8"
+            ]
+        ]
+    },
+    {
+        "id": "addf39ca.5220c8",
+        "type": "function",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "func": "msg.headers = {\"Access-Control-Allow-Origin\" : \"*\"};\nmsg.payload = \"OK\";\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 3260,
+        "wires": [
+            [
+                "c7c2baff.383d48"
+            ]
+        ]
+    },
+    {
+        "id": "c7c2baff.383d48",
+        "type": "http response",
+        "z": "system",
+        "origin": "/root/thethingbox/node_modules/node-red/flow/flows.json",
+        "name": "",
+        "x": 790,
+        "y": 3260,
+        "wires": []
+    }

@@ -1,0 +1,69 @@
+<div aria-labelledby="ui-id-4" aria-describedby="dialog" role="dialog"
+	tabindex="-1"
+	class="setting-board ui-dialog ui-widget ui-widget-content">
+
+	<div
+		class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+		<span class="ui-dialog-title" id="ui-id-4">
+            <span id="lang_title"></span>
+        </span>
+	</div>
+	<div
+		style="display: block; width: auto; min-height: 26px; max-height: none; height: auto;"
+		id="dialog" class="hide ui-dialog-content ui-widget-content">
+		<form id="lang-form" class="form-horizontal" action="/handle/lang">
+		
+			<div class="form-row">
+				<label for="lang_interface">
+					<i class="fa fa-globe"></i>
+                    <span id="lang_select"></span>
+				</label>
+                <select id="lang_interface" name="languages">
+                    <option value="auto"  id="lang_auto"></option>
+                    <option value="en-US" id="lang_en"></option>
+                    <option value="fr-FR" id="lang_fr"></option>
+                </select>
+            </div>
+            
+			<div class="form-tips" id="lang_tips"></div>			
+		</form>
+	</div>
+
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+		<div class="ui-dialog-buttonset">
+			<button aria-disabled="false" role="button"
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+				type="submit" form="lang-form">
+				<span class="ui-button-text">OK</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+    $("#lang_title").html(RED._("settings.lang.title"));
+    $("#lang_select").html(RED._("settings.lang.select.label"));
+    $("#lang_auto").html(RED._("settings.lang.select.auto"));
+    $("#lang_en").html(RED._("settings.lang.select.en"));
+    $("#lang_fr").html(RED._("settings.lang.select.fr"));
+    $("#lang_tips").html(RED._("settings.lang.tips"));
+    
+    $(document).ready(function(){
+        var settings = "<%- payload %>";
+        $('#lang_interface').val(settings);
+    });
+	
+	$('#lang-form').submit(function(event){
+        var $this = $(this);
+        event.preventDefault();
+        $('input[name="usingAJAX"]',this).val( 'true' );
+        var url = $this.attr('action');
+        var dataToSend = $this.serialize();
+        var callback = function(dataReceived){
+            RED.notify(dataReceived,"success");
+        };
+        var typeOfDataToReceive = 'html';
+        $.get( url, dataToSend, callback, typeOfDataToReceive )
+    });
+</script>
+

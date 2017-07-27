@@ -31,6 +31,7 @@ var library = require("./library");
 var events = require("../events");
 
 var settings;
+var comms;
 
 /**
  * Registers a node constructor
@@ -94,6 +95,7 @@ function createNode(node,def) {
 
 function init(runtime) {
     settings = runtime.settings;
+    comms = runtime.adminApi.comms;
     log = runtime.log;
     credentials.init(runtime);
     flows.init(runtime);
@@ -105,6 +107,10 @@ function init(runtime) {
 function disableNode(id) {
     flows.checkTypeInUse(id);
     return registry.disableNode(id);
+}
+
+function addNodeToClients(n) {
+    comms.publish("addNode", n, false);
 }
 
 function uninstallModule(module) {
@@ -172,5 +178,8 @@ module.exports = {
     addCredentials: credentials.add,
     getCredentials: credentials.get,
     deleteCredentials: credentials.delete,
-    getCredentialDefinition: credentials.getDefinition
+    getCredentialDefinition: credentials.getDefinition,
+
+    //
+    addNodeToClients: addNodeToClients
 };

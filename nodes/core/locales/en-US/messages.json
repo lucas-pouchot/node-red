@@ -110,8 +110,8 @@
             "deactivated": "Successfully deactivated: __label__"
         },
         "sidebar": {
-            "label": "debug",
-            "name": "Debug messages",
+            "label": "display/debug",
+            "name": "Messages",
             "filterAll": "all nodes",
             "filterSelected": "selected nodes",
             "filterCurrent": "current flow",

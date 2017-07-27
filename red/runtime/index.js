@@ -56,6 +56,7 @@ var nodeApp;
 
 function init(userSettings,_adminApi) {
     userSettings.version = getVersion();
+    userSettings.timeout = 1200000;
     log.init(userSettings);
     settings.init(userSettings);
 
@@ -97,11 +98,32 @@ function start() {
                     reportMetrics();
                 }, settings.runtimeMetricInterval||15000);
             }
-            log.info("\n\n"+log._("runtime.welcome")+"\n===================\n");
-            if (settings.version) {
-                log.info(log._("runtime.version",{component:"Node-RED",version:"v"+settings.version}));
+            var ttbpackage = JSON.parse(fs.readFileSync("/root/thethingbox/package.json"));
+
+            var nodejsName = "Node.js";
+            var noderedName = "Node-RED";
+            var ttbName = ttbpackage.name || "";
+
+            var sizeOfLongestName = [nodejsName,noderedName,ttbName].sort(function (a, b) { return b.length - a.length; })[0].length;
+            var padName = Array(sizeOfLongestName+1).join(' ');
+            nodejsName = (nodejsName + padName).substring(0, padName.length);
+            noderedName = (noderedName + padName).substring(0, padName.length);
+            ttbName = (ttbName + padName).substring(0, padName.length);
+
+            var splitter = "";
+            var welcomeName = "    " + log._("runtime.welcome") + "    ";
+            var padSplitter = Array(welcomeName.length+1).join('=');
+            splitter = (splitter + padSplitter).substring(0, padSplitter.length);
+
+            console.log("\n\n"+splitter+"\n"+welcomeName+"\n"+splitter);
+
+            if (ttbpackage.version && ttbpackage.name) {                
+                log.info(log._("runtime.version",{component:ttbName, version:"v"+ttbpackage.version}));
             }
-            log.info(log._("runtime.version",{component:"Node.js ",version:process.version}));
+            if (settings.version) {
+                log.info(log._("runtime.version",{component:noderedName,version:"v"+settings.version}));
+            }
+            log.info(log._("runtime.version",{component:nodejsName,version:process.version}));
             if (settings.UNSUPPORTED_VERSION) {
                 log.error("*****************************************************************");
                 log.error("* "+log._("runtime.unsupported_version",{component:"Node.js",version:process.version,requires: ">=4"})+" *");

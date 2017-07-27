@@ -16,8 +16,8 @@
 
 RED.palette = (function() {
 
-    var exclusion = ['config','unknown','deprecated'];
-    var coreCategories = ['subflows', 'input', 'output', 'function', 'social', 'mobile', 'storage', 'analysis', 'advanced'];
+    var exclusion = ['config','unknown','deprecated','system'];
+    var coreCategories = ['input', 'output', 'function', 'subflows', 'social', 'mobile', 'storage', 'analysis', 'advanced'];
 
     var categoryContainers = {};
 
@@ -307,7 +307,11 @@ RED.palette = (function() {
 
             var categoryNode = $("#palette-container-"+category);
             if (categoryNode.find(".palette_node").length === 1) {
-                categoryContainers[category].open();
+                if(category !== "basic") {
+                    categoryContainers[category].close();
+                } else {
+                    categoryContainers[category].open();
+                }
             }
 
         }
@@ -448,6 +452,9 @@ RED.palette = (function() {
         }
         categoryList.forEach(function(category){
             createCategoryContainer(category, RED._("palette.label."+category,{defaultValue:category}));
+            if(category !== "basic") {
+                categoryContainers[category].close();
+            }
         });
 
         $("#palette-collapse-all").on("click", function(e) {

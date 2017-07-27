@@ -33,9 +33,20 @@ module.exports = {
     },
     get: function(req,res) {
         var namespace = req.params[0];
+		var settings = JSON.parse(fs.readFileSync("/root/userdir/thethingbox.json"));
         var lngs = req.query.lng;
         namespace = namespace.replace(/\.json$/,"");
         var lang = req.query.lng; //determineLangFromHeaders(req.acceptsLanguages() || []);
+        if(typeof settings.lang === "string") {
+            switch(settings.lang) {
+                case "auto":
+                    lang = req.query.lng; //i18n.determineLangFromHeaders(req.acceptedLanguages || []);
+                    break;
+                default:
+                    lang = settings.lang;
+                    break;
+            }
+        }
         var prevLang = i18n.i.lng();
         // Trigger a load from disk of the language if it is not the default
         i18n.i.setLng(lang, function(){

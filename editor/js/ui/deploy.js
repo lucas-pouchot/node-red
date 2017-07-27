@@ -347,7 +347,7 @@ RED.deploy = (function() {
                 }
             }
 
-            var nns = RED.nodes.createCompleteNodeSet();
+            var nns = RED.nodes.createCompleteNodeSet(null, true);
 
             var startTime = Date.now();
             $(".deploy-button-content").css('opacity',0);

@@ -1,0 +1,20 @@
+<div id="current-wifi">
+    <span class="icon-signal"></span>
+    <% if (payload.essid !== null) { %>
+    	<% if (payload.essid != "off") { %>    		
+	    	<span id="wifi-not-selected_msg" class="hide"></span>
+	    	<span id="wifi_msg"></span>
+	        <code>
+	            <%= payload.essid %>
+	        </code>
+	    <% } else {%>
+	    	<span id="wifi_msg" class="hide"></span>
+	    	<span id="wifi-not-selected_msg"></span>
+	    <% } %>
+    <% } %>
+</div></br>
+
+<script>
+    $("#wifi_msg").html(RED._("settings.wifi.msg"));
+    $("#wifi-not-selected_msg").html(RED._("settings.wifi.notSelectedMsg"));
+</script>
